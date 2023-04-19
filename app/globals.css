@@ -2,26 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.sectionBackground {
+  @apply border border-slate-200/25 bg-slate-500/25 backdrop-blur-sm;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.headerText {
+  @apply lg:text-3xl text-2xl font-semibold text-sky-400;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.metricsText {
+  @apply flex justify-around items-center w-full text-2xl;
+}
+
+.input {
+  @apply px-4 py-2 bg-slate-800 border border-slate-200/25 rounded-lg outline-none;
+}
+
+.button {
+  @apply bg-sky-600 text-white font-semibold px-4 py-2 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700;
+}
+
+.loginButton {
+  @apply flex justify-center items-center gap-2 button bg-sky-600 text-white font-semibold py-3 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700 text-xs;
+}
+
+.link {
+  @apply text-sky-400 hover:text-sky-500 decoration-dotted hover:underline;
+}
+
+.scrollbarStyle {
+  @apply scrollbar scrollbar-thumb-slate-800 scrollbar-track-transparent
 }
