@@ -130,7 +130,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       )}
       <div className='flex md:flex-row flex-col gap-4'>
         <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} placeholder='Discord ID or search query' />
-        <button className="button" onClick={handleClick} disabled={loading}>
+        <button className='flex button justify-center items-center' onClick={handleClick} disabled={loading}>
           {loading ? (
             <AiOutlineLoading3Quarters className='animate-spin' />
           ) : (

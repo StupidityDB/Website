@@ -20,11 +20,11 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
     <div className='flex flex-col gap-4'>
       <div className='flex gap-4 items-center'>
         <Image src={review.sender.profilePhoto} alt='User Avatar' width={45} height={45} className='rounded-full' draggable='false' />
-        <p className='md:text-2xl overflow-scroll scrollbar-none font-semibold'>{review.sender.username}</p>
+        <p className='text-2xl overflow-scroll scrollbar-none font-semibold'>{review.sender.username}</p>
       </div>
       <div className='flex flex-col gap-4 mb-2'>
         <p>{review.comment}</p>
-        <div className="w-full h-[1px] my-1 bg-slate-200/25"></div>
+        <div className='w-full h-[1px] my-1 bg-slate-200/25'></div>
         <div className='flex flex-col gap-2'>
           <p className='md:text-2xl text-xl text-slate-300 font-semibold'>Review Information</p>
           <div className='flex flex-col gap-1'>
@@ -39,7 +39,7 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
         {isAdmin || JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id ? (
           <button className='button !bg-red-700 hover:!bg-red-800' onClick={() => handleDeleteReviewClick(review.id, review.sender.discordID)}>Delete</button>
         ) : null}
-        <button onClick={closeDialog} className="button !bg-gray-500 hover:!bg-gray-600">Close Dialog</button>
+        <button onClick={closeDialog} className='button !bg-gray-500 hover:!bg-gray-600'>Close</button>
       </div>
     </div>
   )
