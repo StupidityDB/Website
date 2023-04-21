@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function LoadingSkeleton() {
   return (
     <div className='flex flex-col justify-center items-center gap-4 h-screen'>

@@ -1,7 +1,7 @@
-import BottomBar from '@global/components/BottomBar'
 import '@global/app/globals.css'
-import TopBar from '@global/components/TopBar'
 import Loading from '@global/app/loading'
+import BottomBar from '@global/components/BottomBar'
+import TopBar from '@global/components/TopBar'
 import { Suspense } from 'react'
 
 export const metadata = {

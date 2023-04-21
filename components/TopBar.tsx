@@ -15,7 +15,7 @@ const TopBar: React.FC = (): JSX.Element => {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: null })
+    const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: null }) as string | null
 
     if (token) {
       getRdbUser({ token: token }).then((user) => {

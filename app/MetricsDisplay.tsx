@@ -1,4 +1,4 @@
-import { numberWithCommas } from '@global/functions/numberUtils';
+import { numberWithCommas } from '@global/functions/numberUtils'
 
 import React from 'react'
 
@@ -24,7 +24,7 @@ const MetricsDisplay: React.FC<MetricsDisplayProps> = ({ reviewCount, userCount,
         <p className="metricsText">{numberWithCommas({ x: requestsCount })}</p>
       </div>
     </div>
-  );
+  )
 }
 
 export default MetricsDisplay

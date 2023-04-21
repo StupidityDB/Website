@@ -1,3 +1,18 @@
+/* metrics */
+export interface RdbMetrics {
+  currentReviewCount: number
+  currentUsersCount: number
+  currentRequestsCount: number
+  targetReviewCount: number
+  targetUsersCount: number
+  targetRequestsCount: number
+}
+export interface MetricsObject extends RdbMetrics {
+  totalReviews: string;
+  totalUsers: string;
+  totalRequests: string;
+}
+
 /* getting rdb user info */
 export interface GetUser {
   ID: number;
@@ -72,4 +87,11 @@ export interface ReviewCardProps {
   handleReportReviewClick: (reviewId: number) => void;
   handleDeleteReviewClick: (reviewId: number, discordId: string) => void;
   isAdmin: boolean;
+}
+
+/* alert props */
+export interface AlertOptions {
+  message: string;
+  type: 'success' | 'info' | 'warning' | 'error';
+  timeout?: number;
 }

@@ -12,7 +12,7 @@ const AlertPopup: React.FC<AlertProps> = ({ message, type, timeout = 3000, onClo
   const [show, setShow] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(false), timeout)
+    const timer = setTimeout(() => setShow(false), timeout) as NodeJS.Timeout
     return () => clearTimeout(timer)
   }, [timeout])
 

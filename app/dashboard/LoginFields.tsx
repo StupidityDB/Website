@@ -8,12 +8,12 @@ import { MdLogin } from 'react-icons/md'
 const LoginFields: React.FC = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('')
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
   const handleClick = async () => {
-    const token = inputValue
+    const token = inputValue as string | null
 
     if (token) {
       getRdbUser({ token: token }).then((res) => {
@@ -28,13 +28,13 @@ const LoginFields: React.FC = (): JSX.Element => {
             })
           }).then(() => {
             location.reload()
-          }).catch((err: any) => {
+          }).catch((err: Error) => {
             console.log(err)
           })
         } else {
           alert('Invalid token!')
         }
-      }).catch((err: any) => {
+      }).catch((err: Error) => {
         console.log(err)
       })
     }

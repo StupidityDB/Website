@@ -1,7 +1,7 @@
 import { getLocalStorageItem } from "@global/functions/localStorage"
 import { GetUser, GetReviews, AddReview, DeleteReview, ReportReview, Review } from "@global/functions/interface"
 
-const API_BASE_URL = 'https://manti.vendicated.dev'
+const API_BASE_URL = 'https://manti.vendicated.dev' as string
 
 // functions
 
@@ -14,7 +14,7 @@ export function getRdbUser({ token }: { token: string }): Promise<GetUser> {
     }),
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -26,7 +26,7 @@ export function getReviews({ discordID }: { discordID: string }): Promise<GetRev
     headers: {},
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -43,7 +43,7 @@ export function searchReviews({ token, query }: { token: string; query: string }
     }),
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -56,7 +56,7 @@ export function addReview({ discordID, review }: { discordID: string; review: ob
     body: JSON.stringify(review),
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -72,7 +72,7 @@ export function deleteReview({ reviewID, discordID, token }: { reviewID: number;
     }),
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -88,7 +88,7 @@ export function reportReview({ reviewID, token }: { reviewID: number; token: str
     }),
   })
     .then((res) => res.json())
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return null as any
     })
@@ -102,7 +102,7 @@ export function isAdmin({ currentDiscordID }: { currentDiscordID: string }): Pro
   })
     .then((res) => res.json())
     .then((admins) => admins.includes(currentDiscordID))
-    .catch((err: any) => {
+    .catch((err: Error) => {
       console.error(err)
       return false
     })

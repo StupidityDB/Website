@@ -2,12 +2,12 @@
 
 import { useMetrics } from '@global/functions/useMetrics'
 
-import React from 'react'
-import MetricsDisplay from '@global/app/MetricsDisplay'
 import Introduction from '@global/app/Introduction'
+import MetricsDisplay from '@global/app/MetricsDisplay'
+import React from 'react'
 
 const Homepage: React.FC = (): JSX.Element => {
-  const rdbMetrics = useMetrics();
+  const rdbMetrics = useMetrics()
 
   return (
     <>

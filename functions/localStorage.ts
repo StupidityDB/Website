@@ -18,10 +18,10 @@ export function setLocalStorageItem({ key, value }: SetLocalStorageItemParams): 
   }
 }
 
-export function getLocalStorageItem({ key, defaultValue = '' }: GetLocalStorageItemParams): any {
+export function getLocalStorageItem({ key, defaultValue = '' }: GetLocalStorageItemParams): string {
   try {
     // localStorage.removeItem(key)
-    const storedValue = localStorage.getItem(key)
+    const storedValue = localStorage.getItem(key) as string
     return storedValue !== null ? storedValue : defaultValue
   } catch (error) {
     console.error(`Error getting localStorage item: ${error}`)

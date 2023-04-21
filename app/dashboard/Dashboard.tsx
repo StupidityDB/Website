@@ -1,12 +1,12 @@
 "use client"
 
-import { getReviews, searchReviews, addReview, deleteReview, reportReview } from '@global/functions/RDBAPI'
+import { deleteReview, getReviews, reportReview, searchReviews } from '@global/functions/RDBAPI'
 import { getLocalStorageItem } from '@global/functions/localStorage'
 import { useAlert } from '@global/hooks/useAlert'
 
-import React from 'react'
 import ReviewCard from '@global/app/dashboard/ReviewCard'
 import AlertPopup from '@global/components/AlertPopup'
+import React from 'react'
 
 const Dashboard: React.FC = (): JSX.Element => {
   const { showAlert, showAlertWithMessage, handleAlertClose, alertOptions } = useAlert()
@@ -17,7 +17,7 @@ const Dashboard: React.FC = (): JSX.Element => {
   }, [])
 
   const [inputValue, setInputValue] = React.useState('')
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value.trim())
   }
 
@@ -25,7 +25,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     //event.preventDefault()
     reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
       if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success', timeout: 3000 })
-    }).catch((err: any) => {
+    }).catch((err: Error) => {
       showAlertWithMessage({ message: err.message || 'An error occurred while reporting the review', type: 'error', timeout: 3000 })
       console.log(err)
     })
@@ -36,14 +36,14 @@ const Dashboard: React.FC = (): JSX.Element => {
     //event.preventDefault();
     deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
       if (res.success) {
-        const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId)
+        const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId) as number
         if (indexToRemove !== -1) {
           reviews.splice(indexToRemove, 1)
           setReviews([...reviews])
         }
         showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success', timeout: 3000 })
       }
-    }).catch((err: any) => {
+    }).catch((err: Error) => {
       showAlertWithMessage({ message: err.message || 'An error occurred while deleting the review', type: 'error', timeout: 3000 })
       console.log(err);
     });
@@ -75,7 +75,7 @@ const Dashboard: React.FC = (): JSX.Element => {
           setReviews(reviews)
           alert(JSON.stringify(reviews))
         })
-        .catch((err: any) => {
+        .catch((err: Error) => {
           console.log(err)
         })
     } else if (inputValue.length > 0) {
@@ -102,7 +102,7 @@ const Dashboard: React.FC = (): JSX.Element => {
           )
         })
         setReviews(reviews)
-      }).catch((err: any) => {
+      }).catch((err: Error) => {
         console.log(err)
       })
     } else {

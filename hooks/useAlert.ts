@@ -1,10 +1,5 @@
 import { useState } from 'react'
-
-export type AlertOptions = {
-  message: string
-  type: 'success' | 'info' | 'warning' | 'error'
-  timeout?: number
-}
+import { AlertOptions } from '@global/functions/interface'
 
 export const useAlert = () => {
   const [showAlert, setShowAlert] = useState(false)

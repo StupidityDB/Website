@@ -1,8 +1,9 @@
-import React from 'react'
 import Homepage from '@global/app/Homepage'
 
-export default function Home() {
+const Home = () => {
   return (
     <Homepage />
   )
 }
+
+export default Home

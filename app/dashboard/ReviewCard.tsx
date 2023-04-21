@@ -1,9 +1,10 @@
-import React from 'react'
+import { Review } from '@global/functions/interface'
+import { getLocalStorageItem } from '@global/functions/localStorage'
 import Image from 'next/image'
-import { getLocalStorageItem } from '@global/functions/localStorage';
+import React from 'react'
 
 interface ReviewCardProps {
-  review: any;
+  review: Review;
   handleReportReviewClick: (reviewId: number) => void;
   handleDeleteReviewClick: (reviewId: number, discordId: string) => void;
   isAdmin: boolean;
