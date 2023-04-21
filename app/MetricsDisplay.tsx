@@ -1,12 +1,7 @@
+import { MetricsDisplayProps } from '@global/functions/interface'
 import { numberWithCommas } from '@global/functions/numberUtils'
 
 import React from 'react'
-
-interface MetricsDisplayProps {
-  reviewCount: number
-  userCount: number
-  requestsCount: number
-}
 
 const MetricsDisplay: React.FC<MetricsDisplayProps> = ({ reviewCount, userCount, requestsCount }): JSX.Element => {
   return (

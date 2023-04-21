@@ -1,14 +1,4 @@
-// localStorage.ts
-
-interface SetLocalStorageItemParams {
-  key: string;
-  value: string;
-}
-
-interface GetLocalStorageItemParams {
-  key: string;
-  defaultValue?: any;
-}
+import { SetLocalStorageItemParams, GetLocalStorageItemParams } from '@global/functions/interface'
 
 export function setLocalStorageItem({ key, value }: SetLocalStorageItemParams): void {
   try {

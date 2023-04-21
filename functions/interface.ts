@@ -7,10 +7,15 @@ export interface RdbMetrics {
   targetUsersCount: number
   targetRequestsCount: number
 }
-export interface MetricsObject extends RdbMetrics {
+export interface MetricsObject {
   totalReviews: string;
   totalUsers: string;
   totalRequests: string;
+}
+export interface MetricsDisplayProps {
+  reviewCount: number
+  userCount: number
+  requestsCount: number
 }
 
 /* getting rdb user info */
@@ -94,4 +99,15 @@ export interface AlertOptions {
   message: string;
   type: 'success' | 'info' | 'warning' | 'error';
   timeout?: number;
+}
+
+/* localStorage props */
+export interface SetLocalStorageItemParams {
+  key: string;
+  value: string;
+}
+
+export interface GetLocalStorageItemParams {
+  key: string;
+  defaultValue?: any;
 }
