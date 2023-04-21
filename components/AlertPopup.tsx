@@ -8,7 +8,7 @@ type AlertProps = {
   onClose: () => void
 }
 
-const AlertPopup: React.FC<AlertProps> = ({ message, type, timeout = 3000, onClose }) => {
+const AlertPopup: React.FC<AlertProps> = ({ message, type, timeout = 3000, onClose }): JSX.Element => {
   const [show, setShow] = useState(true)
 
   useEffect(() => {

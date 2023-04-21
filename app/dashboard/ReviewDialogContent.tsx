@@ -9,7 +9,7 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
   handleDeleteReviewClick,
   closeDialog,
   isAdmin,
-}) => {
+}): JSX.Element => {
   const getLocalStorageItem = (params: { key: string; defaultValue: string }) => {
     if (typeof window === 'undefined') return params.defaultValue
     const value = window.localStorage.getItem(params.key)

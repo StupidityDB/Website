@@ -4,7 +4,7 @@ import { ReviewCardProps } from '@global/functions/interface'
 import Image from 'next/image'
 import React from 'react'
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick, handleDeleteReviewClick, isAdmin }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick, handleDeleteReviewClick, isAdmin }): JSX.Element => {
   const { isOpen, content, openDialog, closeDialog } = useDialog()
 
   const dialogContent = (
