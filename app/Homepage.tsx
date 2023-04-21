@@ -20,7 +20,7 @@ const Homepage: React.FC = (): JSX.Element => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default Homepage

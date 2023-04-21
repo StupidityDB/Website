@@ -7,6 +7,7 @@ import { useAlert } from '@global/hooks/useAlert'
 import ReviewCard from '@global/app/dashboard/ReviewCard'
 import AlertPopup from '@global/components/AlertPopup'
 import React from 'react'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const Dashboard: React.FC = (): JSX.Element => {
   const { showAlert, showAlertWithMessage, handleAlertClose, alertOptions } = useAlert()
@@ -16,24 +17,27 @@ const Dashboard: React.FC = (): JSX.Element => {
     setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).admin)
   }, [])
 
+  // used for the search/userid input
   const [inputValue, setInputValue] = React.useState('')
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value.trim())
   }
 
+  // handles the report review button click
   const handleReportReviewClick = (reviewId: number) => {
     //event.preventDefault()
     reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
-      if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success', timeout: 3000 })
+      if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success' })
     }).catch((err: Error) => {
-      showAlertWithMessage({ message: err.message || 'An error occurred while reporting the review', type: 'error', timeout: 3000 })
+      showAlertWithMessage({ message: err.message || 'An error occurred while reporting the review', type: 'error' })
       console.log(err)
     })
   }
 
+  // handles the delete review button click
   const [reviews, setReviews] = React.useState<JSX.Element[]>([])
   const handleDeleteReviewClick = (reviewId: number, discordId: string) => {
-    //event.preventDefault();
+    //event.preventDefault()
     deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
       if (res.success) {
         const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId) as number
@@ -41,72 +45,76 @@ const Dashboard: React.FC = (): JSX.Element => {
           reviews.splice(indexToRemove, 1)
           setReviews([...reviews])
         }
-        showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success', timeout: 3000 })
+        showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success' })
       }
     }).catch((err: Error) => {
-      showAlertWithMessage({ message: err.message || 'An error occurred while deleting the review', type: 'error', timeout: 3000 })
-      console.log(err);
-    });
-  };
+      showAlertWithMessage({ message: err.message || 'An error occurred while deleting the review', type: 'error' })
+      console.log(err)
+    })
+  }
 
+  // sets the go button to a loading state
+  const [loading, setLoading] = React.useState(false)
+  // handles the go button click
   const handleClick = async () => {
+    if (inputValue.length === 0) {
+      showAlertWithMessage({ message: 'Please enter a valid Discord ID or search query', type: 'error' })
+      return
+    }
+
+    setLoading(true)
+
+    const showAlert = (message: string) => showAlertWithMessage({ message, type: 'error' })
+
+    // processes the reviews and sets the reviews state
+    const processReviews = (reviews: any[], query?: string, callback?: () => void) => {
+      if (!reviews || reviews.length === 0) {
+        showAlert(query ? 'No reviews found for this query' : 'No reviews found for this Discord ID')
+        if (callback) callback()
+        return
+      }
+
+      setReviews(
+        reviews.map((review) => (
+          <ReviewCard
+            key={review.id}
+            review={{ ...review, query }}
+            handleReportReviewClick={handleReportReviewClick}
+            handleDeleteReviewClick={handleDeleteReviewClick}
+            isAdmin={admin}
+          />
+        ))
+      )
+
+      if (callback) callback()
+    }
+
+    // if the input is a discord id
     if (/[0-9]{16,19}/.test(inputValue)) {
       getReviews({ discordID: inputValue })
         .then((res) => {
           if (res.success === false) {
-            return showAlertWithMessage({ message: res.message, type: 'error', timeout: 3000 })
-          } else if (!res.reviews || res.reviews.length === 0) {
-            return showAlertWithMessage({ message: 'No reviews found for this Discord ID', type: 'error', timeout: 3000 })
+            showAlert(res.message)
+          } else {
+            res.reviews.shift()
+            processReviews(res.reviews, '', () => setLoading(false))
           }
-
-          res.reviews.shift()
-          const reviews: JSX.Element[] = []
-          res.reviews.forEach((review) => {
-            reviews.push(
-              <ReviewCard
-                key={review.id}
-                review={review}
-                handleReportReviewClick={handleReportReviewClick}
-                handleDeleteReviewClick={handleDeleteReviewClick}
-                isAdmin={admin}
-              />
-            )
-          })
-          setReviews(reviews)
-          alert(JSON.stringify(reviews))
         })
         .catch((err: Error) => {
           console.log(err)
         })
-    } else if (inputValue.length > 0) {
-      searchReviews({ query: inputValue, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
-        if (res.success === false) {
-          return showAlertWithMessage({ message: res.message, type: 'error', timeout: 3000 })
-        } else if (!res.reviews || res.reviews.length === 0) {
-          return showAlertWithMessage({ message: 'No reviews found for this query', type: 'error', timeout: 3000 })
-        }
-
-        const reviews: JSX.Element[] = []
-        res.reviews.forEach((review) => {
-          reviews.push(
-            <ReviewCard
-              key={review.id}
-              review={{
-                ...review,
-                query: inputValue
-              }}
-              handleReportReviewClick={handleReportReviewClick}
-              handleDeleteReviewClick={handleDeleteReviewClick}
-              isAdmin={admin}
-            />
-          )
+    } else { // if the input is a search query
+      searchReviews({ query: inputValue, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
+        .then((res) => {
+          if (res.success === false) {
+            showAlert(res.message)
+          } else {
+            processReviews(res.reviews, inputValue, () => setLoading(false))
+          }
         })
-        setReviews(reviews)
-      }).catch((err: Error) => {
-        console.log(err)
-      })
-    } else {
-      showAlertWithMessage({ message: 'Please enter a valid Discord ID or search query', type: 'error', timeout: 3000 })
+        .catch((err: Error) => {
+          console.log(err)
+        })
     }
   }
 
@@ -122,7 +130,13 @@ const Dashboard: React.FC = (): JSX.Element => {
       )}
       <div className='flex md:flex-row flex-col gap-4'>
         <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} placeholder='Discord ID or search query' />
-        <button className='button' onClick={handleClick}>Go</button>
+        <button className="button" onClick={handleClick} disabled={loading}>
+          {loading ? (
+            <AiOutlineLoading3Quarters className='animate-spin' />
+          ) : (
+            'Go'
+          )}
+        </button>
       </div>
       <div>
         <div className='flex items-start gap-4 max-w-full overflow-auto overflow-x-hidden md:max-h-[63vh] max-h-[65vh] flex-wrap scrollbarStyle'>

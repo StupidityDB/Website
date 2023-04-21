@@ -18,7 +18,7 @@ export default function RootLayout({
     <html className='bg-[#313338]' lang='en'>
       <body className='flex flex-col p-4 cursor-default gap-6 antialiased'>
         <TopBar />
-        <div className='flex justify-center md:h-[75vh] h-[85vh]'>
+        <div className='flex justify-center md:h-[75vh] h-[85vh]' id='root'>
           <div className='flex flex-col sectionBackground py-6 px-8 rounded-xl text-slate-100 w-full'>
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>

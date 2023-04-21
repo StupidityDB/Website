@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 /* metrics */
 export interface RdbMetrics {
   currentReviewCount: number
@@ -93,12 +95,22 @@ export interface ReviewCardProps {
   handleDeleteReviewClick: (reviewId: number, discordId: string) => void;
   isAdmin: boolean;
 }
+export interface ReviewDialogContentProps extends ReviewCardProps {
+  closeDialog: () => void;
+}
 
 /* alert props */
 export interface AlertOptions {
   message: string;
   type: 'success' | 'info' | 'warning' | 'error';
   timeout?: number;
+}
+
+/* dialog props */
+export interface DialogProps {
+  content: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 /* localStorage props */

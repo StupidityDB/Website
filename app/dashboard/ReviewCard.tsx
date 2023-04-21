@@ -1,9 +1,22 @@
+import ReviewDialogContent from '@global/app/dashboard/ReviewDialogContent'
+import { Dialog, useDialog } from '@global/components/Dialog'
 import { ReviewCardProps } from '@global/functions/interface'
-import { getLocalStorageItem } from '@global/functions/localStorage'
 import Image from 'next/image'
 import React from 'react'
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick, handleDeleteReviewClick, isAdmin }) => {
+  const { isOpen, content, openDialog, closeDialog } = useDialog()
+
+  const dialogContent = (
+  <ReviewDialogContent
+    review={review}
+    handleReportReviewClick={handleReportReviewClick}
+    handleDeleteReviewClick={handleDeleteReviewClick}
+    closeDialog={closeDialog}
+    isAdmin={isAdmin}
+  />
+)
+
   return (
     <div className='flex flex-col gap-4 bg-slate-500/25 backdrop-blur-sm md:p-4 p-2 rounded-md w-[310px] md:h-[18em]' key={review.id}>
       <div className='flex gap-4 items-center'>
@@ -14,12 +27,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick
         <p>{review.comment}</p>
       </div>
       <div className='flex gap-4 mt-4'>
-        <button className='button !bg-orange-700 hover:!bg-orange-800' onClick={() => handleReportReviewClick(review.id)}>Report</button>
-        {isAdmin || JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id ? (
-          <button className='button !bg-red-700 hover:!bg-red-800' onClick={() => handleDeleteReviewClick(review.id, review.sender.discordID)}>Delete</button>
-        ) : null}
-        <button className='button'>Info</button>
+        <button className='button' onClick={() => openDialog(dialogContent)}>Info</button>
       </div>
+
+      <Dialog content={content} isOpen={isOpen} onClose={closeDialog} />
     </div>
   )
 }

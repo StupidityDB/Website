@@ -9,6 +9,6 @@
  * string with commas added as thousands separators to the `x` value.
  */
 export function numberWithCommas({ x }: { x: number; }): string {
-  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 

@@ -70,10 +70,10 @@ const TopBar: React.FC = (): JSX.Element => {
                       clearLocalStorage({ fallback: 'rdbToken' }).then((res): boolean => {
                         if (res) {
                           setUser(null)
-                          showAlertWithMessage({ message: 'Successfully logged out!', type: 'success', timeout: 3000 })
+                          showAlertWithMessage({ message: 'Successfully logged out!', type: 'success' })
                           setTimeout(() => location.reload(), 500)
                         } else {
-                          showAlertWithMessage({ message: 'Error clearing localStorage! Cleared token instead.', type: 'error', timeout: 3000 })
+                          showAlertWithMessage({ message: 'Error clearing localStorage! Cleared token instead.', type: 'error' })
                         }
                         return res
                       })

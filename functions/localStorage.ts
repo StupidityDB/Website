@@ -35,5 +35,5 @@ export function clearLocalStorage({ fallback = '' }: { fallback: string }): Prom
       console.error(`Error clearing localStorage: ${error}`)
       reject(false)
     }
-  });
+  })
 }
