@@ -23,6 +23,12 @@ const Dashboard: React.FC = (): JSX.Element => {
     setInputValue(event.target.value.trim())
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement> ) => {
+    if (event.key === 'Enter') {
+      handleClick()
+    }
+  };
+
   // handles the report review button click
   const handleReportReviewClick = (reviewId: number) => {
     //event.preventDefault()
@@ -129,7 +135,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         />
       )}
       <div className='flex md:flex-row flex-col gap-4'>
-        <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} placeholder='Discord ID or search query' />
+        <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} onKeyDown={handleKeyDown} placeholder='Discord ID or search query' />
         <button className='flex button justify-center items-center' onClick={handleClick} disabled={loading}>
           {loading ? (
             <AiOutlineLoading3Quarters className='animate-spin' />
