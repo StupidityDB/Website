@@ -1,7 +1,7 @@
 import { getLocalStorageItem } from "@global/functions/localStorage"
 import { GetUser, GetReviews, AddReview, DeleteReview, ReportReview, Review, Settings } from "@global/functions/interface"
 
-const API_BASE_URL = 'https://manti.vendicated.dev' as string
+export const API_BASE_URL = 'https://manti.vendicated.dev' as string
 
 // functions
 
