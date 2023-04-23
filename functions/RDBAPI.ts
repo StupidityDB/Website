@@ -1,5 +1,5 @@
 import { getLocalStorageItem } from "@global/functions/localStorage"
-import { GetUser, GetReviews, AddReview, DeleteReview, ReportReview, Review } from "@global/functions/interface"
+import { GetUser, GetReviews, AddReview, DeleteReview, ReportReview, Review, Settings } from "@global/functions/interface"
 
 const API_BASE_URL = 'https://manti.vendicated.dev' as string
 
@@ -106,4 +106,23 @@ export function isAdmin({ currentDiscordID }: { currentDiscordID: string }): Pro
       console.error(err)
       return false
     })
+}
+
+export function getRDBSettings(token: string): Promise<Settings> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token,
+    },
+  }).then((res) => res.json() as Promise<Settings>)
+}
+
+export function setRDBSettings(settings: {}, token: string) {
+  return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
+    method: 'PATCH',
+    headers: {
+      "Authorization": token,
+    },
+    body: JSON.stringify(settings),
+  }) // TODO: check if its successfull
 }

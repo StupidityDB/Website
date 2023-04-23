@@ -123,3 +123,8 @@ export interface GetLocalStorageItemParams {
   key: string;
   defaultValue?: any;
 }
+
+export interface Settings
+{
+  opt: boolean;
+}
