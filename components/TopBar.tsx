@@ -66,9 +66,9 @@ const TopBar: React.FC = (): JSX.Element => {
                 </button>
                 {dropdownVisible && (
                   <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-white text-slate-100 border border-slate-100 rounded shadow-md'>
-                    <Link href='/dashboard/settings'>
+                    <Link href={`/dashboard${location.pathname.includes('/settings') ? '' : '/settings'}`}>
                       <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
-                        Settings
+                        {location.pathname.includes('/settings') ? 'Dashboard' : 'Settings'}
                       </button>
                     </Link>
                     <button className='block w-full text-left px-4 py-2 rounded text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
