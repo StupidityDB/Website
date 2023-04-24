@@ -1,5 +1,5 @@
 export async function GET(request: Request) {
-  const allowedDomains = ['manti.vendicated.dev', 'localhost:8000', 'public.spin.rip']
+  const allowedDomains = ['manti.vendicated.dev', 'localhost:8080', 'public.spin.rip']
   if (!allowedDomains.includes(request.headers.get('host')!)) return new Response('Not allowed', { status: 403 })
 
   const response = await fetch('https://manti.vendicated.dev/metrics').then((res: Response) => res.text()).then((text: string) => {
