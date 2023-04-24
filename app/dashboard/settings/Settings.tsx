@@ -17,15 +17,15 @@ const Settings: React.FC = (): JSX.Element => {
   React.useEffect(() => {
     getRDBSettings({ token: token }).then((res) => {
       setSettings(res)
-      setChecked(res.opt)
+      setChecked(!res.opt)
     }).catch((err: Error) => {
       console.log(err)
       showAlertWithMessage({ message: err.message, type: 'error' })
     })
-  }, [token, showAlertWithMessage])
+  }, [token]) // using showAlertWithMessage as a dependency causes an infinite loop
 
   function saveSettings(): void {
-    setRDBSettings({ settings: { opt: checked }, token: token }).catch((err: Error) => {
+    setRDBSettings({ settings: { opt: !checked }, token: token }).catch((err: Error) => {
       console.log(err)
       showAlertWithMessage({ message: err.message, type: 'error' })
     })
@@ -45,7 +45,7 @@ const Settings: React.FC = (): JSX.Element => {
         <>
           <h1 className='text-3xl font-bold mb-4'>Settings</h1>
           <div className='flex flex-col gap-4 h-screen'>
-            <Toggle onChange={setChecked} checked={settings.opt} label='Let people review me' />
+            <Toggle onChange={setChecked} checked={checked} label='Let people review me' />
           </div>
           <button className='flex button justify-center items-center lg:w-1/3' onClick={saveSettings}>Save Settings</button>
         </>
