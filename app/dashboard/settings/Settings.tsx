@@ -1,5 +1,3 @@
-"use client"
-
 import AlertPopup from '@global/components/AlertPopup'
 import { getRDBSettings, setRDBSettings } from '@global/functions/RDBAPI'
 import { Settings } from '@global/functions/interface'
@@ -24,7 +22,7 @@ const Settings: React.FC = (): JSX.Element => {
       console.log(err)
       showAlertWithMessage({ message: err.message, type: 'error' })
     })
-  }, [token])
+  }, [token, showAlertWithMessage])
 
   function saveSettings(): void {
     setRDBSettings({ settings: { opt: checked }, token: token }).catch((err: Error) => {

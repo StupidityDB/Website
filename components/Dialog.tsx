@@ -3,6 +3,8 @@ import React, { MouseEvent, ReactNode, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 
 export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
+  const dialogRef = useRef<HTMLDivElement>(null)
+
   if (!isOpen) return null
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -10,8 +12,6 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
       onClose()
     }
   }
-
-  const dialogRef = useRef<HTMLDivElement>(null)
 
   return ReactDOM.createPortal(
     <div
