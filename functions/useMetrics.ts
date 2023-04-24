@@ -1,7 +1,6 @@
 // useMetrics.ts
 import { useState, useEffect } from 'react'
 import { RdbMetrics, MetricsObject } from '@global/functions/interface'
-import { API_BASE_URL } from './RDBAPI'
 
 export function useMetrics(): RdbMetrics {
   const [rdbMetrics, setRdbMetrics] = useState<RdbMetrics>({
@@ -16,7 +15,7 @@ export function useMetrics(): RdbMetrics {
   // Fetch the metrics from the API when the component mounts
   useEffect(() => {
     async function fetchData(): Promise<void> {
-      const res = await fetch(API_BASE_URL + '/api/metrics') as Response
+      const res = await fetch('/api/metrics') as Response // this fetches metrics from: app/api/metrics/route.ts
       const data = await res.json() as MetricsObject
       // Set the target values to the fetched values
       setRdbMetrics((prevState: RdbMetrics) => ({

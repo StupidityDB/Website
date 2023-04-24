@@ -108,7 +108,7 @@ export function isAdmin({ currentDiscordID }: { currentDiscordID: string }): Pro
     })
 }
 
-export function getRDBSettings(token: string): Promise<Settings> {
+export function getRDBSettings({ token }: { token: string }): Promise<Settings> {
   return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
     method: 'GET',
     headers: {
@@ -117,7 +117,7 @@ export function getRDBSettings(token: string): Promise<Settings> {
   }).then((res) => res.json() as Promise<Settings>)
 }
 
-export function setRDBSettings(settings: {}, token: string) {
+export function setRDBSettings({ settings, token }: { settings: {}; token: string }): Promise<Response> {
   return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
     method: 'PATCH',
     headers: {

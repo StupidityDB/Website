@@ -1,8 +1,10 @@
+import { API_BASE_URL } from '@global/functions/RDBAPI'
+
 export async function GET(request: Request) {
-  const allowedDomains = ['manti.vendicated.dev', 'localhost:8080', 'public.spin.rip']
+  const allowedDomains = ['reviewdb.mantikafasi.dev', 'localhost:8080', 'public.spin.rip']
   if (!allowedDomains.includes(request.headers.get('host')!)) return new Response('Not allowed', { status: 403 })
 
-  const response = await fetch('https://manti.vendicated.dev/metrics').then((res: Response) => res.text()).then((text: string) => {
+  const response = await fetch(API_BASE_URL + '/metrics').then((res: Response) => res.text()).then((text: string) => {
     return {
       totalReviews: parseFloat(text.match(/review_count\s([\d\.e\+]+)/)![1]),
       totalUsers: parseFloat(text.match(/user_count\s([\d\.e\+]+)/)![1]),

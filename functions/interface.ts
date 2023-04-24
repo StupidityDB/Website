@@ -88,6 +88,14 @@ export interface ReportReview {
   message: string;
 }
 
+/* toggle props */
+export interface ToggleProps {
+  checked?: boolean;
+  onChange?: (isChecked: boolean) => void;
+  label?: string;
+  className?: string;
+}
+
 /* review card props */
 export interface ReviewCardProps {
   review: Review;
@@ -124,7 +132,8 @@ export interface GetLocalStorageItemParams {
   defaultValue?: any;
 }
 
-export interface Settings
-{
+/* rdb user settings */
+export interface Settings {
+  DiscordID: string;
   opt: boolean;
 }
