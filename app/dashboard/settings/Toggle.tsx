@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 import { ToggleProps } from '@global/functions/interface'
 
 const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, className }): JSX.Element => {
-  const [isChecked, setIsChecked] = React.useState(checked);
+  const [isChecked, setIsChecked] = React.useState(checked)
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.target?.checked ?? false;
-    setIsChecked(checked);
+    const checked = event.target?.checked ?? false
+    setIsChecked(checked)
     if (onChange) {
-      onChange(checked);
+      onChange(checked)
     }
-  };
+  }
 
   return (
     <label className={`relative inline-flex items-center cursor-pointer ${className}`}>
@@ -33,7 +33,7 @@ const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, class
         </span>
       )}
     </label>
-  );
-};
+  )
+}
 
-export default Toggle;
+export default Toggle
