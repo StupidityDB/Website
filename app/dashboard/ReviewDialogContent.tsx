@@ -1,5 +1,6 @@
 // components/ReviewDialogContent.tsx
 import { ReviewDialogContentProps } from '@global/functions/interface'
+import { getLocalStorageItem } from '@global/functions/localStorage'
 import Image from 'next/image'
 import React from 'react'
 
@@ -10,17 +11,14 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
   closeDialog,
   isAdmin,
 }): JSX.Element => {
-  const getLocalStorageItem = (params: { key: string; defaultValue: string }) => {
-    if (typeof window === 'undefined') return params.defaultValue
-    const value = window.localStorage.getItem(params.key)
-    return value === null ? params.defaultValue : value
-  }
-
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex gap-4 items-center'>
         <Image src={review.sender.profilePhoto} alt='User Avatar' width={45} height={45} className='rounded-full' draggable='false' />
-        <p className='text-2xl overflow-scroll scrollbar-none font-semibold'>{review.sender.username}</p>
+        <p className='flex flex-col text-2xl overflow-scroll scrollbar-none font-semibold'>
+          {review.sender.username}
+          {review.sender.badges && <div className='flex gap-2'>{review.sender.badges.map(i => <Image key={i.icon} src={i.icon} width={20} height={20} title={i.description || i.name} alt={i.name || 'Badge'} />)}</div>}
+        </p>
       </div>
       <div className='flex flex-col gap-4 mb-2'>
         <p>{review.comment}</p>
@@ -31,6 +29,11 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
             <p className='text-slate-300'>Review ID: <em>{review.id}</em></p>
             <p className='text-slate-300'>Review Date: <em>{new Date(review.timestamp * 1000).toLocaleString()}</em></p>
             {review.query && <p className='text-slate-300'>Found under: <em>{review.query}</em></p>}
+          </div>
+          <p className='md:text-2xl text-xl text-slate-300 font-semibold'>User Information</p>
+          <div className='flex flex-col gap-1'>
+            <p className='text-slate-300'>Discord ID: <em>{review.sender.discordID}</em></p>
+            <p className='text-slate-300'>Sender ID: <em>${review.sender.id}</em></p>
           </div>
         </div>
       </div>

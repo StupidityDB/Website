@@ -11,73 +11,99 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const Dashboard: React.FC = (): JSX.Element => {
   const { showAlert, showAlertWithMessage, handleAlertClose, alertOptions } = useAlert()
-
   const [admin, setAdmin] = React.useState(false)
+  const [isMounted, setIsMounted] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [reviews, setReviews] = React.useState<JSX.Element[]>([])
+
   React.useEffect(() => {
     setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).admin)
+    setIsMounted(true)
   }, [])
 
-  // used for the search/userid input
-  const [inputValue, setInputValue] = React.useState('')
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value.trim())
   }
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement> ) => {
+  const getQueryParameterValue = () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get('query') || ''
+  }
+
+  // initialize the input value based on the URL query parameter
+  React.useEffect(() => {
+    if (!isMounted) return
+
+    const query = getQueryParameterValue()
+    if (query) {
+      setInputValue(query)
+      handleClick(query)
+    }
+  }, [isMounted])
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleClick()
     }
-  };
-
-  // handles the report review button click
-  const handleReportReviewClick = (reviewId: number) => {
-    //event.preventDefault()
-    reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
-      if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success' })
-    }).catch((err: Error) => {
-      showAlertWithMessage({ message: err.message || 'An error occurred while reporting the review', type: 'error' })
-      console.log(err)
-    })
   }
 
-  // handles the delete review button click
-  const [reviews, setReviews] = React.useState<JSX.Element[]>([])
-  const handleDeleteReviewClick = (reviewId: number, discordId: string) => {
-    //event.preventDefault()
-    deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) }).then((res) => {
-      if (res.success) {
-        const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId) as number
-        if (indexToRemove !== -1) {
-          reviews.splice(indexToRemove, 1)
-          setReviews([...reviews])
-        }
-        showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success' })
+  const handleReportReviewClick = async (reviewId: number) => {
+    try {
+      const res = await reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) });
+      if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success' });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        console.log(err)
+      } else {
+        console.error('Unexpected error:', err)
       }
-    }).catch((err: Error) => {
-      showAlertWithMessage({ message: err.message || 'An error occurred while deleting the review', type: 'error' })
-      console.log(err)
-    })
+    }
   }
 
-  // sets the go button to a loading state
-  const [loading, setLoading] = React.useState(false)
-  // handles the go button click
-  const handleClick = async () => {
-    if (inputValue.length === 0) {
-      showAlertWithMessage({ message: 'Please enter a valid Discord ID or search query', type: 'error' })
-      return
+  const handleDeleteReviewClick = async (reviewId: number, discordId: string) => {
+    try {
+      const res = await deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) });
+      if (res.success) {
+        // const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId) as number;
+        // if (indexToRemove !== -1) {
+        //   reviews.splice(indexToRemove, 1);
+        //   setReviews([...reviews]);
+        // }
+        showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success' });
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        console.log(err)
+      } else {
+        console.error('Unexpected error:', err)
+      }
+    }
+  }
+
+  const handleClick = async (eventOrQuery?: React.MouseEvent | string) => {
+    const value = typeof eventOrQuery === 'string' ? eventOrQuery : inputValue;
+
+    if (value.length === 0) {
+      showAlertWithMessage({ message: 'Please enter a valid Discord ID or search query', type: 'error' });
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
-    const showAlert = (message: string) => showAlertWithMessage({ message, type: 'error' })
+    const url = new URL(window.location.href);
+    url.searchParams.set('query', value);
+    window.history.pushState({}, '', url.toString());
 
-    // processes the reviews and sets the reviews state
+    const showAlert = (message: string) => showAlertWithMessage({ message, type: 'error' });
+
     const processReviews = (reviews: any[], query?: string, callback?: () => void) => {
       if (!reviews || reviews.length === 0) {
-        showAlert(query ? 'No reviews found for this query' : 'No reviews found for this Discord ID')
-        if (callback) callback()
-        return
+        showAlert(query ? 'No reviews found for this query' : 'No reviews found for this Discord ID');
+        if (callback) callback();
+        return;
       }
 
       setReviews(
@@ -90,37 +116,35 @@ const Dashboard: React.FC = (): JSX.Element => {
             isAdmin={admin}
           />
         ))
-      )
+      );
 
-      if (callback) callback()
+      if (callback) callback();
     }
 
-    // if the input is a discord id
-    if (/[0-9]{16,19}/.test(inputValue)) {
-      getReviews({ discordID: inputValue })
-        .then((res) => {
-          if (res.success === false) {
-            showAlert(res.message)
-          } else {
-            res.reviews.shift()
-            processReviews(res.reviews, '', () => setLoading(false))
-          }
-        })
-        .catch((err: Error) => {
-          console.log(err)
-        })
-    } else { // if the input is a search query
-      searchReviews({ query: inputValue, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
-        .then((res) => {
-          if (res.success === false) {
-            showAlert(res.message)
-          } else {
-            processReviews(res.reviews, inputValue, () => setLoading(false))
-          }
-        })
-        .catch((err: Error) => {
-          console.log(err)
-        })
+    try {
+      if (/[0-9]{16,19}/.test(value)) {
+        const res = await getReviews({ discordID: value });
+        if (res.success === false) {
+          showAlert(res.message);
+        } else {
+          res.reviews.shift();
+          processReviews(res.reviews, '', () => setLoading(false));
+        }
+      } else {
+        const res = await searchReviews({ query: value, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) });
+        if (res.success === false) {
+          showAlert(res.message);
+        } else {
+          processReviews(res.reviews, value, () => setLoading(false));
+        }
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        console.log(err)
+      } else {
+        console.error('Unexpected error:', err)
+      }
     }
   }
 
