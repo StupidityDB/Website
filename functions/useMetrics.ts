@@ -1,4 +1,3 @@
-// useMetrics.ts
 import { useState, useEffect } from 'react'
 import { RdbMetrics, MetricsObject } from '@global/functions/interface'
 

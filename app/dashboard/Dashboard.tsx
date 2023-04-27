@@ -1,5 +1,3 @@
-"use client"
-
 import { deleteReview, getReviews, reportReview, searchReviews } from '@global/functions/RDBAPI'
 import { getLocalStorageItem } from '@global/functions/localStorage'
 import { useAlert } from '@global/hooks/useAlert'
