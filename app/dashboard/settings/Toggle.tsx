@@ -4,7 +4,7 @@ import { ToggleProps } from '@global/functions/interface'
 const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, className }): JSX.Element => {
   const [isChecked, setIsChecked] = React.useState(checked)
 
-  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const checked = event.target?.checked ?? false
     setIsChecked(checked)
     if (onChange) {

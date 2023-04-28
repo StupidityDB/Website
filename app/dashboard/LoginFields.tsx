@@ -8,11 +8,11 @@ import { MdLogin } from 'react-icons/md'
 const LoginFields: React.FC = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('')
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.target.value)
   }
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     const token = inputValue as string | null
 
     if (token) {

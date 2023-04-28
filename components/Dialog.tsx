@@ -1,4 +1,4 @@
-import { DialogProps } from '@global/functions/interface'
+import { DialogProps, UseDialog } from '@global/functions/interface'
 import React, { MouseEvent, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 
@@ -7,7 +7,7 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
 
   if (!isOpen) return null
 
-  const handleOutsideClick = (e: MouseEvent) => {
+  const handleOutsideClick = (e: MouseEvent): void => {
     if (e.target === dialogRef.current) {
       onClose()
     }
@@ -29,15 +29,15 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
   )
 }
 
-export function useDialog() {
+export function useDialog(): UseDialog {
   const [isOpen, setIsOpen] = React.useState(false)
   const [content, setContent] = React.useState<ReactNode>(null)
 
-  const openDialog = (content: ReactNode) => {
+  const openDialog = (content: ReactNode): void => {
     setContent(content)
     setIsOpen(true)
   }
-  const closeDialog = () => setIsOpen(false)
+  const closeDialog = (): void => setIsOpen(false)
 
   return { isOpen, content, openDialog, closeDialog }
 }

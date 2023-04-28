@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@global/functions/RDBAPI'
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<Response> {
   const allowedDomains = ['reviewdb.mantikafasi.dev', 'localhost:8080', 'public.spin.rip']
   if (!allowedDomains.includes(request.headers.get('host')!)) return new Response('Not allowed', { status: 403 })
 

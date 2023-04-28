@@ -13,7 +13,7 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+}): JSX.Element {
   return (
     <html className='bg-[#313338]' lang='en'>
       <body className='flex flex-col p-4 cursor-default gap-6 antialiased'>

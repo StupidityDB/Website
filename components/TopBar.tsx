@@ -1,6 +1,7 @@
-"use client"
+'use client'
 
 import { getRdbUser } from '@global/functions/RDBAPI'
+import { GetUser } from '@global/functions/interface'
 import { clearLocalStorage, getLocalStorageItem } from '@global/functions/localStorage'
 
 import Image from 'next/image'
@@ -8,7 +9,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const TopBar: React.FC = (): JSX.Element => {
-  const [user, setUser] = React.useState<any>(null)
+  const [user, setUser] = React.useState<GetUser | null>(null)
   const [dropdownVisible, setDropdownVisible] = React.useState(false)
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
@@ -24,7 +25,7 @@ const TopBar: React.FC = (): JSX.Element => {
     }
 
     // Hide dropdown when clicking outside
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent): void => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownVisible(false)
       }
@@ -36,7 +37,7 @@ const TopBar: React.FC = (): JSX.Element => {
     }
   }, [])
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (): void => {
     setDropdownVisible(!dropdownVisible)
   }
 
@@ -60,7 +61,14 @@ const TopBar: React.FC = (): JSX.Element => {
                       </button>
                     </Link>
                     <button className='block w-full text-left px-4 py-2 rounded text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
-                      clearLocalStorage({ fallback: 'rdbToken' })
+                      clearLocalStorage({ fallback: 'rdbToken' }).then(() => {
+                        location.reload()
+                      }).catch((err: Error) => {
+                        console.error(err)
+                        if (confirm('An error occurred while logging out. Would you like to reload anyway?')) {
+                          location.reload()
+                        }
+                      })
                     }}>
                       Logout
                     </button>

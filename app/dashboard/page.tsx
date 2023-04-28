@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { getLocalStorageItem } from '@global/functions/localStorage'
 
@@ -6,6 +6,7 @@ import Dashboard from '@global/app/dashboard/Dashboard'
 import LoginFields from '@global/app/dashboard/LoginFields'
 import React from 'react'
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 const Home = () => {
   const [loggedIn, setLoggedIn] = React.useState(false)
 

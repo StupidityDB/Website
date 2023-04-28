@@ -128,6 +128,12 @@ export interface DialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
+export interface UseDialog {
+  isOpen: boolean;
+  content: React.ReactNode;
+  openDialog: (content: React.ReactNode) => void;
+  closeDialog: () => void;
+}
 
 /* localStorage props */
 export interface SetLocalStorageItemParams {

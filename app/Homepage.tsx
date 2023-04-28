@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useMetrics } from '@global/functions/useMetrics'
 

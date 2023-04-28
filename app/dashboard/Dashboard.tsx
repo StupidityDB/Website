@@ -1,4 +1,8 @@
-// TODO: make this code more maintainable and move stuff to separate files
+/*
+  TODO:
+    make this code more maintainable and move stuff to separate files
+    convert try-catch back to .then().catch()
+*/
 
 import { deleteReview, getReviews, reportReview, searchReviews } from '@global/functions/RDBAPI'
 import { getLocalStorageItem } from '@global/functions/localStorage'
@@ -9,6 +13,7 @@ import React from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Review } from '@global/functions/interface'
 
 const Dashboard: React.FC = (): JSX.Element => {
   const [admin, setAdmin] = React.useState(false)
@@ -18,15 +23,15 @@ const Dashboard: React.FC = (): JSX.Element => {
   const [reviews, setReviews] = React.useState<JSX.Element[]>([])
 
   React.useEffect(() => {
-    setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).admin)
+    setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).admin) as unknown as boolean
     setIsMounted(true)
   }, [])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.target.value.trim())
   }
 
-  const getQueryParameterValue = () => {
+  const getQueryParameterValue = (): string => {
     const urlParams = new URLSearchParams(window.location.search)
     return urlParams.get('query') || ''
   }
@@ -42,13 +47,13 @@ const Dashboard: React.FC = (): JSX.Element => {
     }
   }, [isMounted])
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
       handleClick()
     }
   }
 
-  const handleReportReviewClick = async (reviewId: number) => {
+  const handleReportReviewClick = async (reviewId: number): Promise<void> => {
     try {
       const res = await reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
       if (res.success) notify({ message: res.message || 'Review reported successfully', type: 'success' })
@@ -62,7 +67,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     }
   }
 
-  const handleDeleteReviewClick = async (reviewId: number, discordId: string) => {
+  const handleDeleteReviewClick = async (reviewId: number, discordId: string): Promise<void> => {
     try {
       const res = await deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
       if (res.success) {
@@ -78,7 +83,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     }
   }
 
-  const handleClick = async (eventOrQuery?: React.MouseEvent | string) => {
+  const handleClick = async (eventOrQuery?: React.MouseEvent | string): Promise<void> => {
     const value = typeof eventOrQuery === 'string' ? eventOrQuery : inputValue
 
     if (value.length === 0) {
@@ -92,11 +97,9 @@ const Dashboard: React.FC = (): JSX.Element => {
     url.searchParams.set('query', value)
     window.history.pushState({}, '', url.toString())
 
-    const showAlert = (message: string) => notify({ message, type: 'error' })
-
-    const processReviews = (reviews: any[], query?: string, callback?: () => void) => {
+    const processReviews = (reviews: Review[], query?: string, callback?: () => void): void => {
       if (!reviews || reviews.length === 0) {
-        showAlert(query ? 'No reviews found for this query' : 'No reviews found for this Discord ID')
+        notify({ message: `No reviews found for this ${query ? 'query' : 'user'}`, type: 'error' })
         if (callback) callback()
         return
       }
@@ -120,7 +123,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       if (/[0-9]{16,19}/.test(value)) {
         const res = await getReviews({ discordID: value })
         if (res.success === false) {
-          showAlert(res.message)
+          notify({ message: res.message || 'An unknown error has occurred', type: 'error' })
         } else {
           res.reviews.shift()
           processReviews(res.reviews, '', () => setLoading(false))
@@ -128,7 +131,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       } else {
         const res = await searchReviews({ query: value, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
         if (res.success === false) {
-          showAlert(res.message)
+          notify({ message: res.message || 'An unknown error has occurred', type: 'error' })
         } else {
           processReviews(res.reviews, value, () => setLoading(false))
         }

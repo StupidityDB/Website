@@ -1,4 +1,4 @@
-export default function LoadingSkeleton() {
+export default function LoadingSkeleton(): JSX.Element {
   return (
     <div className='flex flex-col justify-center items-center gap-4 h-screen'>
       <div className='flex justify-center items-center'>
