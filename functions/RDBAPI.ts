@@ -1,5 +1,4 @@
-import { getLocalStorageItem } from "@global/functions/localStorage"
-import { GetUser, GetReviews, AddReview, DeleteReview, ReportReview, Review, Settings } from "@global/functions/interface"
+import { AddReview, DeleteReview, GetReviews, GetUser, ReportReview, Settings } from '@global/functions/interface'
 
 export const API_BASE_URL = 'https://manti.vendicated.dev' as string
 
@@ -112,7 +111,7 @@ export function getRDBSettings({ token }: { token: string }): Promise<Settings> 
   return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
     method: 'GET',
     headers: {
-      "Authorization": token,
+      'Authorization': token,
     },
   }).then((res) => res.json() as Promise<Settings>)
 }
@@ -121,7 +120,7 @@ export function setRDBSettings({ settings, token }: { settings: {}; token: strin
   return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {
     method: 'PATCH',
     headers: {
-      "Authorization": token,
+      'Authorization': token,
     },
     body: JSON.stringify(settings),
   }) // TODO: check if its successfull

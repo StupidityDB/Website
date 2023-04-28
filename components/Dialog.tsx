@@ -1,9 +1,9 @@
 import { DialogProps } from '@global/functions/interface'
-import React, { MouseEvent, ReactNode, useRef, useState } from 'react'
+import React, { MouseEvent, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 
 export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const dialogRef = React.useRef<HTMLDivElement>(null)
 
   if (!isOpen) return null
 
@@ -17,9 +17,9 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
     <div
       ref={dialogRef}
       onClick={handleOutsideClick}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-40"
+      className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-40'
     >
-      <div className="border border-slate-200/25 bg-[#3e434d] shadow-lg rounded-lg p-6 text-slate-100 lg:w-1/4">
+      <div className='border border-slate-200/25 bg-[#3e434d] shadow-lg rounded-lg p-6 text-slate-100 lg:w-1/4'>
         <div className='max-w-fit'>
           {content}
         </div>
@@ -30,8 +30,8 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
 }
 
 export function useDialog() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [content, setContent] = useState<ReactNode>(null)
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [content, setContent] = React.useState<ReactNode>(null)
 
   const openDialog = (content: ReactNode) => {
     setContent(content)

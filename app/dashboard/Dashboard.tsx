@@ -1,14 +1,16 @@
+// TODO: make this code more maintainable and move stuff to separate files
+
 import { deleteReview, getReviews, reportReview, searchReviews } from '@global/functions/RDBAPI'
 import { getLocalStorageItem } from '@global/functions/localStorage'
-import { useAlert } from '@global/hooks/useAlert'
+import { notify } from '@global/functions/showToast'
 
 import ReviewCard from '@global/app/dashboard/ReviewCard'
-import AlertPopup from '@global/components/AlertPopup'
 import React from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Dashboard: React.FC = (): JSX.Element => {
-  const { showAlert, showAlertWithMessage, handleAlertClose, alertOptions } = useAlert()
   const [admin, setAdmin] = React.useState(false)
   const [isMounted, setIsMounted] = React.useState(false)
   const [inputValue, setInputValue] = React.useState('')
@@ -49,10 +51,10 @@ const Dashboard: React.FC = (): JSX.Element => {
   const handleReportReviewClick = async (reviewId: number) => {
     try {
       const res = await reportReview({ reviewID: reviewId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
-      if (res.success) showAlertWithMessage({ message: res.message || 'Review reported successfully', type: 'success' })
+      if (res.success) notify({ message: res.message || 'Review reported successfully', type: 'success' })
     } catch (err: unknown) {
       if (err instanceof Error) {
-        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        notify({ message: err.message || 'An unknown error has occurred', type: 'error' })
         console.log(err)
       } else {
         console.error('Unexpected error:', err)
@@ -64,16 +66,11 @@ const Dashboard: React.FC = (): JSX.Element => {
     try {
       const res = await deleteReview({ reviewID: reviewId, discordID: discordId, token: getLocalStorageItem({ key: 'rdbToken', defaultValue: '' }) })
       if (res.success) {
-        // const indexToRemove = reviews.findIndex((element: any) => element.review.id === reviewId) as number
-        // if (indexToRemove !== -1) {
-        //   reviews.splice(indexToRemove, 1)
-        //   setReviews([...reviews])
-        // }
-        showAlertWithMessage({ message: res.message || 'Review deleted successfully', type: 'success' })
+        notify({ message: res.message || 'Review deleted successfully', type: 'success' })
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        notify({ message: err.message || 'An unknown error has occurred', type: 'error' })
         console.log(err)
       } else {
         console.error('Unexpected error:', err)
@@ -85,7 +82,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     const value = typeof eventOrQuery === 'string' ? eventOrQuery : inputValue
 
     if (value.length === 0) {
-      showAlertWithMessage({ message: 'Please enter a valid Discord ID or search query', type: 'error' })
+      notify({ message: 'Please enter a valid Discord ID or search query', type: 'error' })
       return
     }
 
@@ -95,7 +92,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     url.searchParams.set('query', value)
     window.history.pushState({}, '', url.toString())
 
-    const showAlert = (message: string) => showAlertWithMessage({ message, type: 'error' })
+    const showAlert = (message: string) => notify({ message, type: 'error' })
 
     const processReviews = (reviews: any[], query?: string, callback?: () => void) => {
       if (!reviews || reviews.length === 0) {
@@ -138,7 +135,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        showAlertWithMessage({ message: err.message || 'An unknown error has occurred', type: 'error' })
+        notify({ message: err.message || 'An unknown error has occurred', type: 'error' })
         console.log(err)
       } else {
         console.error('Unexpected error:', err)
@@ -148,21 +145,13 @@ const Dashboard: React.FC = (): JSX.Element => {
 
   return (
     <div className='flex flex-col gap-4 h-screen'>
-      {showAlert && (
-        <AlertPopup
-          message={alertOptions.message}
-          type={alertOptions.type}
-          timeout={alertOptions.timeout}
-          onClose={handleAlertClose}
-        />
-      )}
       <div className='flex md:flex-row flex-col gap-4'>
         <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} onKeyDown={handleKeyDown} placeholder='Discord ID or search query' />
         <button className='flex button justify-center items-center' onClick={handleClick} disabled={loading}>
           {loading ? (
             <AiOutlineLoading3Quarters className='animate-spin' />
           ) : (
-            'Go'
+            'Search'
           )}
         </button>
       </div>
@@ -171,6 +160,7 @@ const Dashboard: React.FC = (): JSX.Element => {
           {reviews}
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

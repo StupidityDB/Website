@@ -1,4 +1,5 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react'
+import { ToastPosition } from 'react-toastify'
 
 /* metrics */
 export interface RdbMetrics {
@@ -107,11 +108,18 @@ export interface ReviewDialogContentProps extends ReviewCardProps {
   closeDialog: () => void;
 }
 
-/* alert props */
-export interface AlertOptions {
-  message: string;
-  type: 'success' | 'info' | 'warning' | 'error';
-  timeout?: number;
+/* notify props */
+export interface ToastOptions {
+  type?: 'info' | 'success' | 'warning' | 'error';
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number | false;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: number | undefined;
+  theme?: 'dark' | 'light' | 'colored';
 }
 
 /* dialog props */
@@ -134,6 +142,6 @@ export interface GetLocalStorageItemParams {
 
 /* rdb user settings */
 export interface Settings {
-  DiscordID: string;
+  DiscordID: string | null;
   opt: boolean;
 }

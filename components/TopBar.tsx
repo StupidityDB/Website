@@ -2,19 +2,17 @@
 
 import { getRdbUser } from '@global/functions/RDBAPI'
 import { clearLocalStorage, getLocalStorageItem } from '@global/functions/localStorage'
-import { useAlert } from '@global/hooks/useAlert'
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useRef, useState } from 'react'
-import AlertPopup from './AlertPopup'
+import React from 'react'
 
 const TopBar: React.FC = (): JSX.Element => {
-  const [user, setUser] = useState<any>(null)
-  const [dropdownVisible, setDropdownVisible] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [user, setUser] = React.useState<any>(null)
+  const [dropdownVisible, setDropdownVisible] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: null }) as string | null
 
     if (token) {
@@ -42,22 +40,12 @@ const TopBar: React.FC = (): JSX.Element => {
     setDropdownVisible(!dropdownVisible)
   }
 
-  const { showAlert, showAlertWithMessage, handleAlertClose, alertOptions } = useAlert()
-
   return (
     <>
       {
         user && (
           <>
-            {showAlert && (
-              <AlertPopup
-                message={alertOptions.message}
-                type={alertOptions.type}
-                timeout={alertOptions.timeout}
-                onClose={handleAlertClose}
-              />
-            )}
-            <div className='flex justify-between items-center sectionBackground px-4 py-2 rounded-xl z-40'>
+            <div className='flex justify-between items-center sectionBackground px-4 py-2 rounded-xl z-50'>
               <Link href='/'><Image src='/logo.png' alt='StupidityDB Logo' width={45} height={45} className='mr-2' draggable='false' /></Link>
               <div className='relative'>
                 <button onClick={toggleDropdown} className='flex items-center'>
@@ -72,16 +60,7 @@ const TopBar: React.FC = (): JSX.Element => {
                       </button>
                     </Link>
                     <button className='block w-full text-left px-4 py-2 rounded text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
-                      clearLocalStorage({ fallback: 'rdbToken' }).then((res): boolean => {
-                        if (res) {
-                          setUser(null)
-                          showAlertWithMessage({ message: 'Successfully logged out!', type: 'success' })
-                          setTimeout(() => location.reload(), 500)
-                        } else {
-                          showAlertWithMessage({ message: 'Error clearing localStorage! Cleared token instead.', type: 'error' })
-                        }
-                        return res
-                      })
+                      clearLocalStorage({ fallback: 'rdbToken' })
                     }}>
                       Logout
                     </button>

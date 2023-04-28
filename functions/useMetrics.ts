@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { RdbMetrics, MetricsObject } from '@global/functions/interface'
 
 export function useMetrics(): RdbMetrics {
-  const [rdbMetrics, setRdbMetrics] = useState<RdbMetrics>({
+  const [rdbMetrics, setRdbMetrics] = React.useState<RdbMetrics>({
     currentReviewCount: 0,
     currentUsersCount: 0,
     currentRequestsCount: 0,
@@ -12,7 +12,7 @@ export function useMetrics(): RdbMetrics {
   })
 
   // Fetch the metrics from the API when the component mounts
-  useEffect(() => {
+  React.useEffect(() => {
     async function fetchData(): Promise<void> {
       const res = await fetch('/api/metrics') as Response // this fetches metrics from: app/api/metrics/route.ts
       const data = await res.json() as MetricsObject
@@ -29,7 +29,7 @@ export function useMetrics(): RdbMetrics {
   }, [])
 
   // Animate the metrics when they change
-  useEffect(() => {
+  React.useEffect(() => {
     function animate(): void {
       setRdbMetrics((prevState: RdbMetrics) => {
         let newReviewCount = prevState.currentReviewCount

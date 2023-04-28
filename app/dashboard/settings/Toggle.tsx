@@ -15,8 +15,8 @@ const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, class
   return (
     <label className={`relative inline-flex items-center cursor-pointer ${className}`}>
       <input
-        type="checkbox"
-        className="sr-only"
+        type='checkbox'
+        className='sr-only'
         checked={isChecked}
         onChange={handleToggle}
       />
@@ -28,7 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, class
         ></span>
       </div>
       {label && (
-        <span className="ml-3 text-sm font-medium text-slate-100">
+        <span className='ml-3 text-sm font-medium text-slate-100'>
           {label}
         </span>
       )}
