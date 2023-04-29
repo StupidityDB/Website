@@ -1,10 +1,10 @@
-import { toast, ToastPosition } from 'react-toastify';
-import { ToastOptions } from '@global/functions/interface';
+import { toast, ToastPosition } from 'react-toastify'
+import { ToastOptions } from '@global/functions/interface'
 
-export const notify = (options: ToastOptions) => {
+export const notify = (options: ToastOptions): void => {
   const {
     type = 'info',
-    message = '🦄 Wow so easy!',
+    message = 'No message provided',
     position = 'bottom-left' as ToastPosition,
     autoClose = 5000,
     hideProgressBar = false,
@@ -13,7 +13,7 @@ export const notify = (options: ToastOptions) => {
     draggable = true,
     progress = undefined,
     theme = 'dark',
-  } = options;
+  } = options
 
   toast[type](message, {
     position,
@@ -24,5 +24,5 @@ export const notify = (options: ToastOptions) => {
     draggable,
     progress,
     theme,
-  });
-};
+  })
+}
