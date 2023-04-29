@@ -1,6 +1,9 @@
 {
   "rules": {
-    "semi": ["error", "never"],
+    "semi": [
+      "error",
+      "never"
+    ],
     "no-extra-semi": "error",
     "quotes": [
       "error",
@@ -28,15 +31,11 @@
       }
     ],
     "react-hooks/exhaustive-deps": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "@typescript-eslint/no-unsafe-assignment": "off",
-    "@typescript-eslint/no-unsafe-call": "off",
-    "@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/no-unsafe-return": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "error"
+    "react-hooks/rules-of-hooks": "error"
   },
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals"
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint"
@@ -48,6 +47,12 @@
         "*.tsx"
       ],
       "rules": {
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/explicit-function-return-type": [
           "warn",
           {
@@ -56,6 +61,12 @@
           }
         ]
       }
-    }
+    } //,
+    // {
+    //   "files": ["*.js", "*.jsx"],
+    //   "rules": {
+    //     // Add rules specific to JavaScript files here
+    //   }
+    // }
   ]
 }
