@@ -38,6 +38,7 @@ export interface GetUser {
     description: string;
   }[];
   lastReviewID: number;
+  type: number;
 }
 
 /* getting reviews */
@@ -92,7 +93,7 @@ export interface ReportReview {
 /* toggle props */
 export interface ToggleProps {
   checked?: boolean;
-  onChange?: (isChecked: boolean) => void;
+  onChange?: (isChecked: boolean) => void; // eslint-disable-line no-unused-vars
   label?: string;
   className?: string;
 }
@@ -100,9 +101,9 @@ export interface ToggleProps {
 /* review card props */
 export interface ReviewCardProps {
   review: Review;
-  handleReportReviewClick: (reviewId: number) => void;
-  handleDeleteReviewClick: (reviewId: number, discordId: string) => void;
-  isAdmin: boolean;
+  handleReportReviewClick: (reviewId: number) => void; // eslint-disable-line no-unused-vars
+  handleDeleteReviewClick: (reviewId: number, discordId: string) => void; // eslint-disable-line no-unused-vars
+  isAdmin: number;
 }
 export interface ReviewDialogContentProps extends ReviewCardProps {
   closeDialog: () => void;
@@ -131,7 +132,7 @@ export interface DialogProps {
 export interface UseDialog {
   isOpen: boolean;
   content: React.ReactNode;
-  openDialog: (content: React.ReactNode) => void;
+  openDialog: (content: React.ReactNode) => void; // eslint-disable-line no-unused-vars
   closeDialog: () => void;
 }
 
@@ -143,7 +144,7 @@ export interface SetLocalStorageItemParams {
 
 export interface GetLocalStorageItemParams {
   key: string;
-  defaultValue?: any;
+  defaultValue?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 /* rdb user settings */

@@ -16,14 +16,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Review } from '@global/functions/interface'
 
 const Dashboard: React.FC = (): JSX.Element => {
-  const [admin, setAdmin] = React.useState(false)
+  const [admin, setAdmin] = React.useState(0)
   const [isMounted, setIsMounted] = React.useState(false)
   const [inputValue, setInputValue] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const [reviews, setReviews] = React.useState<JSX.Element[]>([])
 
   React.useEffect(() => {
-    setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).admin) as unknown as boolean
+    setAdmin(JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' })).type) as unknown as number
     setIsMounted(true)
   }, [])
 

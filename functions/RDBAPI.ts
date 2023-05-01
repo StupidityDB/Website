@@ -15,7 +15,7 @@ export function getRdbUser({ token }: { token: string }): Promise<GetUser> {
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
@@ -27,7 +27,7 @@ export function getReviews({ discordID }: { discordID: string }): Promise<GetRev
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
@@ -44,7 +44,7 @@ export function searchReviews({ token, query }: { token: string; query: string }
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
@@ -57,7 +57,7 @@ export function addReview({ discordID, review }: { discordID: string; review: ob
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
@@ -73,7 +73,7 @@ export function deleteReview({ reviewID, discordID, token }: { reviewID: number;
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
@@ -89,23 +89,26 @@ export function reportReview({ reviewID, token }: { reviewID: number; token: str
     .then((res) => res.json())
     .catch((err: Error) => {
       console.error(err)
-      return null as any
+      return null
     })
 }
 
-// endpoint: https://manti.vendicated.dev/admins
-export function isAdmin({ currentDiscordID }: { currentDiscordID: string }): Promise<boolean> {
-  return fetch(`${API_BASE_URL}/admins`, {
-    method: 'GET',
-    headers: {},
-  })
-    .then((res) => res.json())
-    .then((admins) => admins.includes(currentDiscordID))
-    .catch((err: Error) => {
-      console.error(err)
-      return false
-    })
-}
+/*
+  this function is not needed
+  user obj returns info needed (type): -1 is perma ban, 0 is normal user, 1 is admin
+*/
+// export function isAdmin({ currentDiscordID }: { currentDiscordID: string }): Promise<boolean> {
+//   return fetch(`${API_BASE_URL}/admins`, {
+//     method: 'GET',
+//     headers: {},
+//   })
+//     .then((res) => res.json())
+//     .then((admins) => admins.includes(currentDiscordID))
+//     .catch((err: Error) => {
+//       console.error(err)
+//       return false
+//     })
+// }
 
 export function getRDBSettings({ token }: { token: string }): Promise<Settings> {
   return fetch(`${API_BASE_URL}/api/reviewdb/settings`, {

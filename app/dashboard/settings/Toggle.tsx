@@ -28,7 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, class
         ></span>
       </div>
       {label && (
-        <span className='ml-3 text-sm font-medium text-slate-100'>
+        <span className='ml-3 text-sm gg-normal text-slate-100'>
           {label}
         </span>
       )}

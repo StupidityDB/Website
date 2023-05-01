@@ -2,28 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'gg-normal';
+  src: url('/fonts/ggsans-Normal.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.gg-normal {
+  font-family: 'gg-normal', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'gg-medium';
+  src: url('/fonts/ggsans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+.gg-medium {
+  font-family: 'gg-medium', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'gg-italic';
+  src: url('/fonts/ggsans-NormalItalic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+.gg-italic {
+  font-family: 'gg-italic', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'gg-semibold';
+  src: url('/fonts/ggsans-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+.gg-semibold {
+  font-family: 'gg-semibold', system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: 'gg-bold';
+  src: url('/fonts/ggsans-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+.gg-bold {
+  font-family: 'gg-bold', system-ui, sans-serif;
+}
+
 .sectionBackground {
   @apply border border-slate-200/25 bg-slate-500/25 backdrop-blur-sm;
 }
 
 .headerText {
-  @apply lg:text-3xl text-2xl font-semibold text-sky-400;
+  @apply lg:text-3xl text-2xl font-semibold text-sky-400 gg-medium gg-semibold;
 }
 
 .metricsText {
-  @apply flex justify-around items-center w-full text-2xl;
+  @apply flex justify-around items-center w-full text-2xl gg-normal;
 }
 
 .input {
-  @apply px-4 py-2 bg-slate-800 border border-slate-200/25 rounded-lg outline-none;
+  @apply px-4 py-2 bg-slate-800 border border-slate-200/25 rounded-lg outline-none gg-normal;
 }
 
 .button {
-  @apply bg-sky-600 text-white font-semibold px-4 py-2 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700;
+  @apply bg-sky-600 text-white gg-bold px-4 py-2 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700;
 }
 
 .loginButton {
-  @apply flex justify-center items-center gap-2 button bg-sky-600 text-white font-semibold py-3 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700 text-xs;
+  @apply flex justify-center items-center gap-2 button bg-sky-600 text-white gg-bold py-3 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700 text-xs;
 }
 
 .link {

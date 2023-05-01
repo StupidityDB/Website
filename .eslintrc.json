@@ -1,5 +1,9 @@
 {
   "rules": {
+    "indent": [
+      "error",
+      2
+    ],
     "semi": [
       "error",
       "never"
@@ -11,7 +15,7 @@
     ],
     "no-console": "off",
     "no-unused-vars": [
-      "error",
+      "warn",
       {
         "argsIgnorePattern": "^_"
       }

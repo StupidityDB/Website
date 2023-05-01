@@ -40,7 +40,7 @@ const Settings: React.FC = (): JSX.Element => {
     <div className='flex flex-col md:w-2/3 w-full h-full'>
       {settings.DiscordID && (
         <>
-          <h1 className='text-3xl font-bold mb-4'>Settings</h1>
+          <h1 className='text-3xl gg-bold mb-4'>Settings</h1>
           <div className='flex flex-col gap-4 h-screen'>
             <Toggle onChange={setChecked} checked={checked} label='Let people review me' />
           </div>

@@ -1,13 +1,18 @@
 import { SetLocalStorageItemParams, GetLocalStorageItemParams } from '@global/functions/interface'
 
-export function setLocalStorageItem({ key, value }: SetLocalStorageItemParams): void {
-  if (typeof window !== 'undefined') {
-    try {
-      window.localStorage.setItem(key, value)
-    } catch (error) {
-      console.error(`Error setting localStorage item: ${error}`)
+export function setLocalStorageItem({ key, value }: SetLocalStorageItemParams): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(key, value)
+        resolve('Item set successfully')
+      } catch (error) {
+        reject(new Error(`Error setting localStorage item: ${error}`))
+      }
+    } else {
+      reject(new Error('Window is not defined'))
     }
-  }
+  })
 }
 
 export function getLocalStorageItem({ key, defaultValue = '' }: GetLocalStorageItemParams): string {

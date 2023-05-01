@@ -1,9 +1,12 @@
 import { setLocalStorageItem } from '@global/functions/localStorage'
-import { getRdbUser, isAdmin } from '@global/functions/RDBAPI'
+import { getRdbUser } from '@global/functions/RDBAPI'
+import { notify } from '@global/functions/showToast'
 
 import React from 'react'
 import { BsKey } from 'react-icons/bs'
 import { MdLogin } from 'react-icons/md'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LoginFields: React.FC = (): JSX.Element => {
   const [inputValue, setInputValue] = React.useState('')
@@ -18,24 +21,18 @@ const LoginFields: React.FC = (): JSX.Element => {
     if (token) {
       getRdbUser({ token: token }).then((res) => {
         if (res) {
+          notify({ message: 'Successfully logged in! Please wait...', type: 'success' })
           setLocalStorageItem({ key: 'rdbToken', value: token })
-          isAdmin({ currentDiscordID: res?.discordID }).then((adminRes) => {
-            setLocalStorageItem({
-              key: 'rdbUserInfo', value: JSON.stringify({
-                ...res,
-                admin: adminRes === true ? true : false
-              })
-            })
-          }).then(() => {
-            location.reload()
+          setLocalStorageItem({ key: 'rdbUserInfo', value: JSON.stringify(res) }).then(() => {
+            setTimeout(() => location.reload(), 1000)
           }).catch((err: Error) => {
-            console.log(err)
+            notify({ message: err.message, type: 'error' })
           })
         } else {
-          alert('Invalid token!')
+          notify({ message: 'Invalid token!', type: 'error' })
         }
       }).catch((err: Error) => {
-        console.log(err)
+        notify({ message: err.message, type: 'error' })
       })
     }
   }
@@ -50,6 +47,7 @@ const LoginFields: React.FC = (): JSX.Element => {
           <button className='loginButton px-5' onClick={handleClick}><MdLogin /> Login</button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }
