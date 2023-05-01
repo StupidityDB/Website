@@ -33,7 +33,7 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
           <p className='md:text-2xl text-xl text-slate-300 gg-semibold'>User Information</p>
           <div className='flex flex-col gap-1'>
             <p className='gg-normal text-slate-300'>Discord ID: <span className='gg-italic'>{review.sender.discordID}</span></p>
-            <p className='gg-normal text-slate-300'>Sender ID: <span className='gg-italic'>${review.sender.id}</span></p>
+            <p className='gg-normal text-slate-300'>Sender ID: <span className='gg-italic'>{review.sender.id}</span></p>
           </div>
         </div>
       </div>
