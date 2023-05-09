@@ -18,15 +18,15 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick
   )
 
   return (
-    <div className='flex flex-col gap-4 bg-slate-500/25 backdrop-blur-sm md:p-4 p-2 rounded-md w-[310px] md:h-[18em]' key={review.id}>
+    <div className='flex flex-col md:gap-2 bg-slate-500/25 backdrop-blur-sm md:p-4 p-2 rounded-md w-[310px] h-[12em] md:h-[14em]' key={review.id}>
       <div className='flex gap-4 items-center'>
         <Image src={review.sender.profilePhoto} alt='User Avatar' width={45} height={45} className='rounded-full' draggable='false' />
         <p className='md:text-2xl overflow-scroll scrollbar-none gg-normal'>{review.sender.username}</p>
       </div>
-      <div className='flex-grow flex-shrink overflow-y-auto scrollbarStyle'>
+      <div className='mt-2 overflow-y-auto h-96 scrollbarStyle'>
         <p className='gg-normal'>{review.comment}</p>
       </div>
-      <div className='flex gap-4 mt-4'>
+      <div className='flex justify-start place-content-end gap-4 mt-4'>
         <button className='button' onClick={() => openDialog(dialogContent)}>Info</button>
       </div>
 

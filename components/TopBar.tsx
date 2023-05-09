@@ -13,15 +13,15 @@ import React from 'react'
 const TopBar: React.FC = (): JSX.Element => {
   const [user, setUser] = React.useState<GetUser | null>(null)
   const [dropdownVisible, setDropdownVisible] = React.useState(false)
-  const [buttonState, setButtonState] = React.useState('/settings')
+  const [buttonState, setButtonState] = React.useState('dashboard')
 
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    if (location.pathname === '/dashboard') {
-      setButtonState('/dashboard')
+    if (location.pathname === '/dashboard' || location.pathname === '/') {
+      setButtonState('dashboard')
     } else {
-      setButtonState('/settings')
+      setButtonState('me')
     }
 
     const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: null }) as string | null
@@ -83,6 +83,19 @@ const TopBar: React.FC = (): JSX.Element => {
                   </button>
                   {dropdownVisible && (
                     <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-white text-slate-100 border border-slate-100 rounded shadow-md'>
+                      {location.pathname !== '/dashboard/me' ? (
+                        <Link href='/dashboard/me' onClick={() => setButtonState('me')}>
+                          <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
+                            My profile
+                          </button>
+                        </Link>
+                      ) : (
+                        <Link href='/dashboard/settings'>
+                          <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
+                            Settings
+                          </button>
+                        </Link>
+                      )}
                       <button className='block w-full text-left px-4 py-2 rounded gg-normal text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
                         clearLocalStorage({ fallback: 'rdbToken' }).then(() => {
                           location.reload()
@@ -98,10 +111,10 @@ const TopBar: React.FC = (): JSX.Element => {
                     </div>
                   )}
                 </div>
-                {buttonState === '/settings' ? (
-                  <Link href='/dashboard' title='User Dashboard' onClick={() => setButtonState('/dashboard')}><MdDashboard className='ml-2 text-slate-200 text-2xl hover:animate-pulse' /></Link>
+                {buttonState === 'me' ? (
+                  <Link href='/dashboard' title='User Dashboard' onClick={() => setButtonState('dashboard')}><MdDashboard className='ml-2 text-slate-200 text-2xl hover:animate-pulse' /></Link>
                 ) : (
-                  <Link href='/dashboard/settings' title='User Settings' onClick={() => setButtonState('/settings')}><IoSettingsOutline className='ml-2 text-slate-200 text-2xl hover:animate-spin' /></Link>
+                  <Link href='/dashboard/settings' title='User Settings' onClick={() => setButtonState('me')}><IoSettingsOutline className='ml-2 text-slate-200 text-2xl hover:animate-spin' /></Link>
                 )}
               </div>
             </div>

@@ -1,3 +1,8 @@
+/*
+  TODO:
+    add pagination to getReviews() and implement it in the frontend
+*/
+
 import { AddReview, DeleteReview, GetReviews, GetUser, ReportReview, Settings } from '@global/functions/interface'
 
 export const API_BASE_URL = 'https://manti.vendicated.dev' as string
@@ -116,7 +121,12 @@ export function getRDBSettings({ token }: { token: string }): Promise<Settings> 
     headers: {
       'Authorization': token,
     },
-  }).then((res) => res.json() as Promise<Settings>)
+  })
+    .then((res) => res.json())
+    .catch((err: Error) => {
+      console.error(err)
+      return null
+    })
 }
 
 export function setRDBSettings({ settings, token }: { settings: {}; token: string }): Promise<Response> {

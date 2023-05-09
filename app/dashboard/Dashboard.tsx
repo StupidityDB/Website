@@ -14,6 +14,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Review } from '@global/functions/interface'
+import { getQueryParameterValue } from '@global/functions/paramUtils'
 
 const Dashboard: React.FC = (): JSX.Element => {
   const [admin, setAdmin] = React.useState(0)
@@ -31,16 +32,11 @@ const Dashboard: React.FC = (): JSX.Element => {
     setInputValue(event.target.value.trim())
   }
 
-  const getQueryParameterValue = (): string => {
-    const urlParams = new URLSearchParams(window.location.search)
-    return urlParams.get('query') || ''
-  }
-
   // initialize the input value based on the URL query parameter
   React.useEffect(() => {
     if (!isMounted) return
 
-    const query = getQueryParameterValue()
+    const query = getQueryParameterValue({ param: 'query' })
     if (query) {
       setInputValue(query)
       handleClick(query)
