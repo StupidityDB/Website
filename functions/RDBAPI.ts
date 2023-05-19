@@ -19,7 +19,7 @@ export function getRdbUser({ token }: { token: string }): Promise<GetUser> {
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -31,7 +31,7 @@ export function getReviews({ discordID }: { discordID: string }): Promise<GetRev
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -48,7 +48,7 @@ export function searchReviews({ token, query }: { token: string; query: string }
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -61,7 +61,7 @@ export function addReview({ discordID, review }: { discordID: string; review: ob
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -77,7 +77,7 @@ export function deleteReview({ reviewID, discordID, token }: { reviewID: number;
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -93,7 +93,7 @@ export function reportReview({ reviewID, token }: { reviewID: number; token: str
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }
@@ -110,7 +110,7 @@ export function reportReview({ reviewID, token }: { reviewID: number; token: str
 //     .then((res) => res.json())
 //     .then((admins) => admins.includes(currentDiscordID))
 //     .catch((err: Error) => {
-//       console.error(err)
+//       console.log(err)
 //       return false
 //     })
 // }
@@ -124,7 +124,7 @@ export function getRDBSettings({ token }: { token: string }): Promise<Settings> 
   })
     .then((res) => res.json())
     .catch((err: Error) => {
-      console.error(err)
+      console.log(err)
       return null
     })
 }

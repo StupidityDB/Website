@@ -2,7 +2,7 @@
 
 import { getRdbUser } from '@global/functions/RDBAPI'
 import { GetUser } from '@global/functions/interface'
-import { clearLocalStorage, getLocalStorageItem, setLocalStorageItem } from '@global/functions/localStorage'
+import { clearCookies, getCookieItem, setCookieItem } from '@global/functions/cookieUtils'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { MdDashboard } from 'react-icons/md'
 
@@ -24,12 +24,12 @@ const TopBar: React.FC = (): JSX.Element => {
       setButtonState('me')
     }
 
-    const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: null }) as string | null
+    const token = getCookieItem({ key: 'rdbToken', defaultValue: null }) as string | null
 
     if (token) {
       getRdbUser({ token: token }).then((user) => {
         setUser(user)
-        setLocalStorageItem({ key: 'rdbUserInfo', value: JSON.stringify(user) })
+        setCookieItem({ key: 'rdbUserInfo', value: JSON.stringify(user) })
       })
     } else {
       setUser(null)
@@ -97,10 +97,10 @@ const TopBar: React.FC = (): JSX.Element => {
                         </Link>
                       )}
                       <button className='block w-full text-left px-4 py-2 rounded gg-normal text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
-                        clearLocalStorage({ fallback: 'rdbToken' }).then(() => {
+                        clearCookies().then(() => {
                           location.reload()
                         }).catch((err: Error) => {
-                          console.error(err)
+                          console.log(err)
                           if (confirm('An error occurred while logging out. Would you like to reload anyway?')) {
                             location.reload()
                           }

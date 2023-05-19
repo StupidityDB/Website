@@ -1,4 +1,5 @@
-import { setLocalStorageItem } from '@global/functions/localStorage'
+import { GetUser } from '@global/functions/interface'
+import { setCookieItem } from '@global/functions/cookieUtils'
 import { getRdbUser } from '@global/functions/RDBAPI'
 import { notify } from '@global/functions/showToast'
 
@@ -19,11 +20,11 @@ const LoginFields: React.FC = (): JSX.Element => {
     const token = inputValue as string | null
 
     if (token) {
-      getRdbUser({ token: token }).then((res) => {
+      getRdbUser({ token: token }).then((res: GetUser) => {
         if (res) {
           notify({ message: 'Successfully logged in! Please wait...', type: 'success' })
-          setLocalStorageItem({ key: 'rdbToken', value: token })
-          setLocalStorageItem({ key: 'rdbUserInfo', value: JSON.stringify(res) }).then(() => {
+          setCookieItem({ key: 'rdbToken', value: token })
+          setCookieItem({ key: 'rdbUserInfo', value: JSON.stringify(res) }).then(() => {
             setTimeout(() => location.reload(), 1000)
           }).catch((err: Error) => {
             notify({ message: err.message, type: 'error' })

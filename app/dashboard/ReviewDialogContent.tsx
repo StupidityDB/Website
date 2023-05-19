@@ -1,6 +1,6 @@
 // components/ReviewDialogContent.tsx
 import { ReviewDialogContentProps } from '@global/functions/interface'
-import { getLocalStorageItem } from '@global/functions/localStorage'
+import { getCookieItem } from '@global/functions/cookieUtils'
 import Image from 'next/image'
 import React from 'react'
 
@@ -39,7 +39,7 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
       </div>
       <div className='flex gap-4 mt-4'>
         <button className='button !bg-orange-700 hover:!bg-orange-800' onClick={() => handleReportReviewClick(review.id)}>Report</button>
-        {isAdmin == 1 || JSON.parse(getLocalStorageItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id ? (
+        {isAdmin == 1 || JSON.parse(getCookieItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id ? (
           <button className='button !bg-red-700 hover:!bg-red-800' onClick={() => handleDeleteReviewClick(review.id, review.sender.discordID)}>Delete</button>
         ) : null}
         <button onClick={closeDialog} className='button !bg-gray-500 hover:!bg-gray-600'>Close</button>

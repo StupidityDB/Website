@@ -22,26 +22,6 @@ export interface MetricsDisplayProps {
 }
 
 /* getting rdb user info */
-export interface GetUser {
-  ID: number;
-  discordID: string;
-  username: string;
-  profilePhoto: string;
-  clientMod: string;
-  warningCount: number;
-  banEndDate: string;
-  badges: {
-    name: string;
-    icon: string;
-    redirectURL: string;
-    type: number;
-    description: string;
-  }[];
-  lastReviewID: number;
-  type: number;
-}
-
-/* getting reviews */
 export interface Badge {
   name: string;
   icon: string;
@@ -49,6 +29,20 @@ export interface Badge {
   type: number;
   description: string;
 }
+export interface GetUser {
+  ID: number;
+  discordID: string;
+  username: string;
+  profilePhoto: string;
+  clientMods: string[];
+  warningCount: number;
+  badges: Badge[];
+  banInfo: null | Date;
+  lastReviewID: number;
+  type: number;
+}
+
+/* getting reviews */
 export interface Sender {
   id: number;
   discordID: string;
@@ -56,14 +50,14 @@ export interface Sender {
   profilePhoto: string;
   badges: Badge[];
 }
+
 export interface Review {
   id: number;
   sender: Sender;
-  star: number;
   comment: string;
   type: number;
   timestamp: number;
-  query?: string; // not part of the api response, this is added manually when needed
+  query?: string; // not part of the api response, added when needed
 }
 export interface GetReviews {
   success: boolean;
@@ -90,6 +84,21 @@ export interface ReportReview {
   message: string;
 }
 
+/* dashboard input value props */
+export interface InputValueState {
+  inputValue: string
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void // eslint-disable-line no-unused-vars
+}
+
+/* dashboard handleClick props */
+export interface HandleClickProps {
+  eventOrQuery?: React.MouseEvent | string;
+  admin: number | undefined;
+  inputValue: string;
+  setReviews: (reviews: JSX.Element[]) => void; // eslint-disable-line no-unused-vars
+  setLoading?: (loading: boolean) => void; // eslint-disable-line no-unused-vars
+}
+
 /* toggle props */
 export interface ToggleProps {
   checked?: boolean;
@@ -103,7 +112,7 @@ export interface ReviewCardProps {
   review: Review;
   handleReportReviewClick: (reviewId: number) => void; // eslint-disable-line no-unused-vars
   handleDeleteReviewClick: (reviewId: number, discordId: string) => void; // eslint-disable-line no-unused-vars
-  isAdmin: number;
+  isAdmin: number | undefined;
 }
 export interface ReviewDialogContentProps extends ReviewCardProps {
   closeDialog: () => void;
@@ -136,13 +145,13 @@ export interface UseDialog {
   closeDialog: () => void;
 }
 
-/* localStorage props */
-export interface SetLocalStorageItemParams {
+/* cookie func props */
+export interface SetCookieItemParams {
   key: string;
   value: string;
 }
 
-export interface GetLocalStorageItemParams {
+export interface GetCookieItemParams {
   key: string;
   defaultValue?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

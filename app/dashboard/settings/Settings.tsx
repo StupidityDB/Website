@@ -1,14 +1,14 @@
 import Toggle from '@global/app/dashboard/settings/Toggle'
 import { getRDBSettings, setRDBSettings } from '@global/functions/RDBAPI'
 import { Settings } from '@global/functions/interface'
-import { getLocalStorageItem } from '@global/functions/localStorage'
+import { getCookieItem } from '@global/functions/cookieUtils'
 import { notify } from '@global/functions/showToast'
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Settings: React.FC = (): JSX.Element => {
-  const token = getLocalStorageItem({ key: 'rdbToken', defaultValue: '' })
+  const token = getCookieItem({ key: 'rdbToken', defaultValue: '' })
 
   const [checked, setChecked] = React.useState(false as boolean)
   const [settings, setSettings] = React.useState({} as Settings)
