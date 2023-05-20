@@ -70,9 +70,17 @@ const TopBar: React.FC = (): JSX.Element => {
       {
         user && (
           <>
-            <div className='flex justify-between items-center sectionBackground px-4 py-2 rounded-xl z-50'>
+            <div className='flex items-center sectionBackground px-4 py-2 rounded-xl z-50'>
               <Link href='/'><Image src='/logo.png' alt='StupidityDB Logo' width={45} height={45} className='mr-2' draggable='false' /></Link>
-              <div className='flex items-center'>
+              <div className='md:flex items-center justify-center hidden'>
+                <Link href='/dashboard' className='text-slate-100 m-3 hover:underline'>Dashboard</Link>
+                <Link href='/discord' className='text-slate-100 m-3 hover:underline'>Discord</Link>
+                <Link href='/dashboard/appeal' className='text-slate-100 m-3 hover:underline'>Appeal Ban</Link>
+                <Link href='/dashboard/settings' className='text-slate-100 m-3 hover:underline'>Settings</Link>
+                <Link href='/download' className='text-slate-100 m-3 hover:underline'>Download</Link>
+              </div>
+
+              <div className='flex items-center ml-auto'>
                 <div className='relative'>
                   <button onClick={toggleDropdown} className='flex items-center'>
                     <div className='flex flex-col'>
