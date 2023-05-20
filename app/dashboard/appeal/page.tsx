@@ -51,7 +51,7 @@ const Home = (): JSX.Element => {
 
             <button className='flex button justify-center items-center mt-auto w-1/3'
               title='Submit appeal'
-              disabled={!(!user?.banInfo && user?.type !== -1)}
+              disabled={!user?.banInfo && user?.type !== -1}
               onClick={() => {
                 openDialog(<ConfirmationModal title='Warning' message={(
                   <>
