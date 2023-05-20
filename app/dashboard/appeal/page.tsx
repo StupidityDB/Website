@@ -44,7 +44,7 @@ const Home = (): JSX.Element => {
               ReviewDB Appeal Form
             </h1>
 
-            <LabelledInput label='Why do you think you should be unbanned?' placeholder='Write a reason' onChange={(e) => setAppealText(e.target.textContent ?? '')} />
+            <LabelledInput label='Why do you think you should be unbanned?' placeholder='Write a reason' onChange={(e) => setAppealText(e.target.value)} />
             <LabelledInput label='What is your discord username?' inputValue={user?.username} />
             <LabelledInput label='What is your Discord ID?' inputValue={user?.discordID} />
 

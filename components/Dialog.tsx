@@ -19,7 +19,7 @@ export const Dialog: React.FC<DialogProps> = ({ content, isOpen, onClose }) => {
       onClick={handleOutsideClick}
       className='fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-40'
     >
-      <div className='border border-slate-200/25 bg-[#3e434d] shadow-lg rounded-lg p-6 text-slate-100 lg:w-2/4'>
+      <div className='border border-slate-200/25 bg-[#3e434d] shadow-lg rounded-lg p-6 text-slate-100 lg:w-2/5'>
         <div className='max-w-fit'>
           {content}
         </div>
