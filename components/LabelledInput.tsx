@@ -7,7 +7,7 @@ interface LabelledInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function LabelledInput({ label, placeholder, onChange, inputValue = '' }: LabelledInputProps) {
+export default function LabelledInput({ label, placeholder, onChange, inputValue }: LabelledInputProps) {
   return (
     <div className='block'>
       <div className="">
@@ -20,8 +20,8 @@ export default function LabelledInput({ label, placeholder, onChange, inputValue
           id="inline-full-name"
           type="text"
           placeholder={placeholder}
-          value={inputValue ?? ''}
           disabled={!!inputValue}
+          value={inputValue}
           required={true}
           onChange={onChange}
         />

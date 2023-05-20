@@ -3,12 +3,13 @@ import { GetUser } from '@global/functions/interface'
 
 export async function GET(request: Request): Promise<Response | undefined> {
   const url = new URL(request.url)
-  const token = url.searchParams.get('token') || ''
+  let token = url.searchParams.get('token') || ''
   const page = url.searchParams.get('page') || 'dashboard'
 
   try {
     if (!token) return new Response(JSON.stringify({ error: 'Failed to log in', details: 'You did not provide a token. Please try again, or join our Discord server for support: discord.gg/S5VTuhTgtp' }), { status: 400 })
-
+    token = decodeURIComponent(token)
+    
     const res: GetUser = await getRdbUser({ token: token })
 
     if (res) {
