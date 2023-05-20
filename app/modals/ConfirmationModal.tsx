@@ -8,7 +8,7 @@ interface ConfirmationModalProps {
   submitText?: string
 }
 
-export default function ConfirmationModal({ title, message, onConfirm, onCancel, submitText = 'Submit' }: ConfirmationModalProps) {
+export default function ConfirmationModal({ title, message, onConfirm, onCancel, submitText = 'Submit' }: ConfirmationModalProps): JSX.Element {
   return (
     <div className="relative transform overflow-hidden text-left transition-all sm:w-full sm:max-w-lg">
       <div className="sm:flex sm:items-start">

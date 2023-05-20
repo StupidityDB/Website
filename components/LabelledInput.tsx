@@ -7,7 +7,7 @@ interface LabelledInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function LabelledInput({ label, placeholder, onChange, inputValue }: LabelledInputProps) {
+export default function LabelledInput({ label, placeholder, onChange, inputValue }: LabelledInputProps): JSX.Element {
   return (
     <div className='block'>
       <div className="">
