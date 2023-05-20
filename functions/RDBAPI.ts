@@ -138,3 +138,15 @@ export function setRDBSettings({ settings, token }: { settings: {}; token: strin
     body: JSON.stringify(settings),
   }) // TODO: check if its successfull
 }
+
+export function submitRDBAppeal({ token, appealText }: { token: string; appealText: string }): Promise<Response> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/appeals`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': token,
+    },
+    body: JSON.stringify({
+      appealText: appealText,
+    }),
+  })
+}

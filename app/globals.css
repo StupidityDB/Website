@@ -73,6 +73,12 @@
   @apply px-4 py-2 bg-slate-800 border border-slate-200/25 rounded-lg outline-none gg-normal;
 }
 
+.button:disabled,
+.button[disabled]{
+  cursor: not-allowed !important;
+  @apply bg-sky-900;
+}
+
 .button {
   @apply bg-sky-600 text-white gg-bold px-4 py-2 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700;
 }
