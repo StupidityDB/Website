@@ -53,8 +53,8 @@ const Home = (): JSX.Element => {
               onClick={() => {
                 openDialog(<ConfirmationModal title='Warning' message={(
                   <>
-                    <h3>To get response to your appeal you need to join our support discord server</h3>
-                    <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline' href='https://discord.gg/eWPBSbvznt' target='_blank'>You can join here</a>
+                    <h3>If you would like us to respond to your appeal, you must join our Discord server</h3>
+                    <a className='link' href='/discord' target='_blank'>You can join here</a>
                   </>
                 )} onConfirm={submitAppeal} onCancel={closeDialog} />)
               }}>
@@ -63,7 +63,7 @@ const Home = (): JSX.Element => {
 
             {
               !user?.banInfo && user?.type !== -1 && (
-                <h1 className='text-center block font-bold text-l  text-red-500'>
+                <h1 className='text-center block font-bold text-l text-red-500'>
                   To submit an appeal you need to be banned
                 </h1>
               )

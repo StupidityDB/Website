@@ -4,7 +4,7 @@ import { SetCookieItemParams, GetCookieItemParams } from '@global/functions/inte
 export function setCookieItem({ key, value }: SetCookieItemParams): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
-      Cookies.set(key, value, { secure: true, sameSite: 'strict' })
+      Cookies.set(key, value, { secure: true, sameSite: 'strict', expires: 3 }) // expires in 3 days
       resolve('Item set successfully')
     } catch (error) {
       reject(new Error(`Error setting cookie item: ${error}`))

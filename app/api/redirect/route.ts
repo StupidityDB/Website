@@ -7,9 +7,9 @@ export async function GET(request: Request): Promise<Response | undefined> {
   const page = url.searchParams.get('page') || 'dashboard'
 
   try {
-    if (!token) return new Response(JSON.stringify({ error: 'Failed to log in', details: 'You did not provide a token. Please try again, or join our Discord server for support: discord.gg/S5VTuhTgtp' }), { status: 400 })
+    if (!token) return new Response(JSON.stringify({ error: 'Failed to log in', details: `You did not provide a token. Please try again, or join our Discord server for support: ${request.headers.get('host')!}/discord` }), { status: 400 })
     token = decodeURIComponent(token)
-    
+
     const res: GetUser = await getRdbUser({ token: token })
 
     if (res) {
@@ -27,7 +27,7 @@ export async function GET(request: Request): Promise<Response | undefined> {
 
       return response
     } else {
-      return new Response(JSON.stringify({ error: 'Failed to log in', details: 'You potentially provided an invalid token. Please try again, or join our Discord server for support: discord.gg/S5VTuhTgtp' }), { status: 401 })
+      return new Response(JSON.stringify({ error: 'Failed to log in', details: `You potentially provided an invalid token. Please try again, or join our Discord server for support: ${request.headers.get('host')!}/discord` }), { status: 401 })
     }
 
   } catch (err: unknown) {
@@ -40,5 +40,5 @@ export async function GET(request: Request): Promise<Response | undefined> {
   }
 
   // Add an ending return statement to handle the case where none of the conditions are met.
-  return new Response(JSON.stringify({ error: 'Failed to log in', details: 'An unexpected error occurred.' }), { status: 500 })
+  return new Response(JSON.stringify({ error: 'Failed to log in', details: `An unexpected error occurred. Please try again, or join our Discord server for support: ${request.headers.get('host')!}/discord` }), { status: 500 })
 }
