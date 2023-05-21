@@ -76,7 +76,17 @@
 .button:disabled,
 .button[disabled]{
   cursor: not-allowed !important;
-  @apply bg-sky-900;
+  @apply bg-gray-600;
+}
+.button:disabled:hover,
+.button[disabled]:hover {
+  @apply bg-gray-600;
+}
+
+.input:disabled,
+.input[disabled]{
+  cursor: not-allowed !important;
+  @apply bg-gray-700;
 }
 
 .button {

@@ -1,15 +1,15 @@
 'use client'
 
+import LoginFields from '@global/app/dashboard/LoginFields'
 import ConfirmationModal from '@global/app/modals/ConfirmationModal'
 import { Dialog, useDialog } from '@global/components/Dialog'
 import LabelledInput from '@global/components/LabelledInput'
+import { submitRDBAppeal } from '@global/functions/RDBAPI'
 import { getCookieItem } from '@global/functions/cookieUtils'
 import { GetUser } from '@global/functions/interface'
-import { submitRDBAppeal } from '@global/functions/RDBAPI'
 import { notify } from '@global/functions/showToast'
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
-import LoginFields from '../LoginFields'
 
 const Home = (): JSX.Element => {
   const user = JSON.parse(getCookieItem({ key: 'rdbUserInfo', defaultValue: null })) as GetUser | null
@@ -39,15 +39,13 @@ const Home = (): JSX.Element => {
           <Dialog content={content} isOpen={isOpen} onClose={closeDialog} />
 
           <div className='flex flex-col gap-4 h-screen items-center'>
-
-            <h1 className='text-center block font-bold text-xl mb-3'>
+            <h1 className='headerText text-center mb-3'>
               ReviewDB Appeal Form
             </h1>
 
             <LabelledInput label='Why do you think you should be unbanned?' placeholder='Write a reason' onChange={(e) => setAppealText(e.target.value)} />
-            <LabelledInput label='What is your discord username?' inputValue={user?.username} />
+            <LabelledInput label='What is your Discord username?' inputValue={user?.username} />
             <LabelledInput label='What is your Discord ID?' inputValue={user?.discordID} />
-
 
             <button className='flex button justify-center items-center mt-auto w-1/3'
               title='Submit appeal'
@@ -56,7 +54,7 @@ const Home = (): JSX.Element => {
                 openDialog(<ConfirmationModal title='Warning' message={(
                   <>
                     <h3>To get response to your appeal you need to join our support discord server</h3>
-                    <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://discord.gg/eWPBSbvznt" target="_blank">You can join here</a>
+                    <a className='font-medium text-blue-600 dark:text-blue-500 hover:underline' href='https://discord.gg/eWPBSbvznt' target='_blank'>You can join here</a>
                   </>
                 )} onConfirm={submitAppeal} onCancel={closeDialog} />)
               }}>
@@ -77,7 +75,6 @@ const Home = (): JSX.Element => {
             </div>
             <ToastContainer />
           </div>
-
         </>) : (
           <LoginFields />
         )

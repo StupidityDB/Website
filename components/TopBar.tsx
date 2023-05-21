@@ -74,10 +74,10 @@ const TopBar: React.FC = (): JSX.Element => {
               <Link href='/'><Image src='/logo.png' alt='StupidityDB Logo' width={45} height={45} className='mr-2' draggable='false' /></Link>
               <div className='md:flex items-center justify-center hidden'>
                 <Link href='/dashboard' className='text-slate-100 m-3 hover:underline'>Dashboard</Link>
-                <Link href='/discord' className='text-slate-100 m-3 hover:underline'>Discord</Link>
-                <Link href='/dashboard/appeal' className='text-slate-100 m-3 hover:underline'>Appeal Ban</Link>
                 <Link href='/dashboard/settings' className='text-slate-100 m-3 hover:underline'>Settings</Link>
+                <Link href='/dashboard/appeal' className='text-slate-100 m-3 hover:underline'>Appeal Ban</Link>
                 <Link href='/download' className='text-slate-100 m-3 hover:underline'>Download</Link>
+                <Link href='/discord' className='text-slate-100 m-3 hover:underline'>Discord</Link>
               </div>
 
               <div className='flex items-center ml-auto'>
@@ -114,7 +114,7 @@ const TopBar: React.FC = (): JSX.Element => {
                           }
                         })
                       }}>
-                      Logout
+                        Logout
                       </button>
                     </div>
                   )}

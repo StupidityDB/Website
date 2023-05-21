@@ -11,15 +11,15 @@ interface LabelledInputProps {
 export default function LabelledInput({ label, placeholder, onChange, inputValue }: LabelledInputProps): JSX.Element {
   return (
     <div className='block'>
-      <div className="">
-        <label className="block mb-1" >
+      <div>
+        <label className='block mb-1' >
           {label}
         </label>
       </div>
-      <div className="md:w-2/3">
-        <input className="input w-[20em]"
-          id="inline-full-name"
-          type="text"
+      <div className='md:w-2/3'>
+        <input className='input w-[20em]'
+          id='inline-full-name'
+          type='text'
           placeholder={placeholder}
           disabled={!!inputValue}
           value={inputValue}
