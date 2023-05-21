@@ -18,7 +18,6 @@ export interface MetricsObject {
 export interface MetricsDisplayProps {
   reviewCount: number
   userCount: number
-  requestsCount: number
 }
 
 /* getting rdb user info */

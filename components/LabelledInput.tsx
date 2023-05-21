@@ -4,6 +4,7 @@ interface LabelledInputProps {
   label: string
   placeholder?: string
   inputValue?: string
+  // eslint-disable-next-line no-unused-vars
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 

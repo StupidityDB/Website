@@ -15,7 +15,7 @@ const Homepage: React.FC = (): JSX.Element => {
         <Introduction />
         <div className='flex flex-col justify-end sm:mb-[5vw] mb-[6vw] h-full'>
           <div className='flex flex-col justify-around items-center'>
-            <MetricsDisplay reviewCount={rdbMetrics.currentReviewCount} userCount={rdbMetrics.currentUsersCount} requestsCount={rdbMetrics.currentRequestsCount} />
+            <MetricsDisplay reviewCount={rdbMetrics.currentReviewCount} userCount={rdbMetrics.currentUsersCount} />
           </div>
         </div>
       </div>

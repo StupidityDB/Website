@@ -6,8 +6,8 @@ const Introduction: React.FC = (): JSX.Element => (
     <h2 className='gg-semibold text-4xl'>ReviewDB</h2>
     <p className='gg-normal text-xl text-center'>Leave reviews on other users&apos; Discord profiles!<br />Anyone with a ReviewDB plugin on any Discord client mod will be able to see your review.</p>
     <div className='w-full flex items-center justify-center' >
-      <a className='button mt-2 lg:mt-4 lg:w-1/5 text-center' href='/dashboard'>Dashboard</a>
-      <a className='button mt-2 lg:mt-4 lg:w-1/5 ml-4 text-center' href='/download'>Download ReviewDB</a>
+      <Link className='button mt-2 lg:mt-4 lg:w-1/5 text-center' href='/dashboard'>Dashboard</Link>
+      <Link className='button mt-2 lg:mt-4 lg:w-1/5 ml-4 text-center' href='/download'>Download ReviewDB</Link>
     </div>
   </div>
 )
