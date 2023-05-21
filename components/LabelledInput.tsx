@@ -17,7 +17,7 @@ export default function LabelledInput({ label, placeholder, onChange, inputValue
         </label>
       </div>
       <div className="md:w-2/3">
-        <input className="input md:w-[20em] w-full"
+        <input className="input w-[20em]"
           id="inline-full-name"
           type="text"
           placeholder={placeholder}
