@@ -3,7 +3,7 @@ import DownloadCard from '@global/components/DownloadCard'
 const Download = (): JSX.Element => {
   return (
     <>
-      <div className='flex flex-col gap-4 h-screen'>
+      <div className='flex flex-col gap-4 h-screen justfiy-center'>
         <div className='flex flex-col justify-center'>
           <div className='flex items-start gap-4 max-w-full overflow-auto overflow-x-hidden md:max-h-[69vh] max-h-[80vh] flex-wrap scrollbarStyle'>
             <DownloadCard title='Vencord' description='Vencord is a desktop client mod with ReviewDB integrated' downloadLink='https://vencord.dev/download/' websiteLink='https://vencord.dev' icon_url='/platforms/vencord.png' />
