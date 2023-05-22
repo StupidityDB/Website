@@ -44,7 +44,7 @@ const LoginFields: React.FC = (): JSX.Element => {
       <div className='flex flex-col items-center gap-4'>
         <input className='input' onChange={handleChange} type='password' placeholder='ReviewDB Token' />
         <div className='flex w-full justify-center items-center gap-2'>
-          <a href='https://discord.com/oauth2/authorize?client_id=915703782174752809&redirect_uri=https%3A%2F%2Fmanti.vendicated.dev%2Fapi%2Freviewdb%2Fauth&response_type=code&scope=identify' target='_blank' className='loginButton px-3'><BsKey /> Get Token</a>
+          <a href='https://discord.com/api/oauth2/authorize?client_id=915703782174752809&redirect_uri=https%3A%2F%2Fmanti.vendicated.dev%2Fapi%2Freviewdb%2Fauthweb&response_type=code&scope=identify' target='_blank' className='loginButton px-3'><BsKey /> Get Token</a>
           <button className='loginButton px-5' onClick={handleClick}><MdLogin /> Login</button>
         </div>
       </div>
