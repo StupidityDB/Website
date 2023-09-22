@@ -56,7 +56,7 @@ const Dashboard: React.FC = (): JSX.Element => {
   return (
     <div className='flex flex-col gap-4 h-screen'>
       <div className='flex md:flex-row flex-col gap-4'>
-        <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} onKeyDown={handleKeyDown} placeholder='Discord ID or search query' />
+        <input type='text' className='input md:w-[20em] w-full' onChange={handleChange} onKeyDown={handleKeyDown} placeholder={admin == 1 ? 'Discord ID or search query' : 'Discord ID'} />
         <button className='flex button justify-center items-center' onClick={handleClickWrapper} disabled={loading}>
           {loading ? (
             <AiOutlineLoading3Quarters className='animate-spin' />

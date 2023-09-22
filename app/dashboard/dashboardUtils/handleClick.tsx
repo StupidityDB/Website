@@ -61,6 +61,7 @@ export const handleClick = async ({
       const res = await searchReviews({ query: value, token: getCookieItem({ key: 'rdbToken', defaultValue: '' }) })
       if (res.success === false) {
         notify({ message: res.message || 'An unknown error has occurred', type: 'error' })
+        setLoading && setLoading(false)
       } else {
         processReviews(res.reviews, value, () => setLoading && setLoading(false))
       }

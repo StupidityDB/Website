@@ -54,14 +54,16 @@ const TopBar: React.FC = (): JSX.Element => {
 
   const getUserRole = (type: number): JSX.Element | string => {
     switch (type) {
-    case -1:
-      return <span className='text-red-600'>Banned</span>
-    case 0:
-      return <span className='text-slate-400'>User</span>
-    case 1:
-      return <span className='text-sky-500'>Admin</span>
-    default:
-      return 'Unknown'
+      case -1:
+        return <span className='text-red-600'>Banned</span>
+      case 0:
+        return <span className='text-slate-400'>User</span>
+      case 1:
+        return <span className='text-sky-500'>Admin</span>
+      case 2:
+        return <span className='text-sky-300'>Moderator</span>
+      default:
+        return <span className='text-sky-50'>Unknown</span>
     }
   }
 
