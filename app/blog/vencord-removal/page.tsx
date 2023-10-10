@@ -30,7 +30,7 @@ const Home = () => {
             {
               // TODO ADD A STUPID MARKDOWN THING
             }
-            If you still want to use reviewdb you can use our version of Vencord called <Link className='link' href='https://github.com/StupidityDB/VencordPlusInstaller/releases/latest'>Vencord+</Link> which has reviewdb built in.
+            If you still want to use reviewdb you can use our version of Vencord called <Link className='link' href='https://github.com/StupidityDB/VencordPlus'>Vencord+</Link> which you can download from <Link className='link' href='https://github.com/StupidityDB/VencordPlusInstaller/releases/latest'>here</Link>
             Or you can try <Link className='link' href='/download'>other client mods</Link>
 
           </h1>
