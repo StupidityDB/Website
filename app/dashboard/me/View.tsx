@@ -3,23 +3,21 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { handleClick } from '@global/app/dashboard/dashboardUtils/handleClick'
-import useAdminState from '@global/app/dashboard/dashboardUtils/useAdminState'
+// import useAdminState from '@global/app/dashboard/dashboardUtils/useAdminState'
 import { getCookieItem } from '@global/functions/cookieUtils'
 
 const Dashboard: React.FC = (): JSX.Element => {
-  const admin = useAdminState()
+  const admin = 1 // users can now delete reviews on their own profile, so this is set to 1 to let users delete reviews
   const [reviews, setReviews] = React.useState<JSX.Element[]>([])
   const inputValue = JSON.parse(getCookieItem({ key: 'rdbUserInfo', defaultValue: '{}' })).discordID
 
   React.useEffect(() => {
-    if (admin) {
-      handleClick({
-        admin,
-        inputValue,
-        setReviews
-      })
-    }
-  }, [admin])
+    handleClick({
+      admin,
+      inputValue,
+      setReviews
+    })
+  })
 
   return (
     <div className='flex flex-col gap-4 h-screen'>
