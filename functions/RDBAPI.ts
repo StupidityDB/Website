@@ -150,3 +150,12 @@ export function submitRDBAppeal({ token, appealText }: { token: string; appealTe
     }),
   })
 }
+
+export function oauthGithub({ code, token }: { code: string, token:string }): Promise<Response> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/oauth/github?code=` + code, {
+    method: 'POST',
+    headers: {
+      'Authorization': token
+    },
+  })
+}
