@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
+import Link from 'next/link'
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 const Home = () => {
@@ -17,13 +17,13 @@ const Home = () => {
               (<a className='link' target='_blank' href='https://github.com/Vendicated/Vencord/commit/390987e4a9d58c4c0eb9d4f6b4101ecf1203ccba'>full commit description here</a>)
               <br />
               <br />
-              For the record, we have <Link className='link' href='/dashbord/settings'>an opting out feature</Link> on ReviewDB which will disable reviews on your profile. Adding to that, I told Ven that if I were to add (I still don't support it) I would put a deleted indicator on reviews that were deleted by the profile owner just like WhatsApp, but he straight refused it.
+              For the record, we have <Link className='link' href='/dashbord/settings'>an opting out feature</Link> on ReviewDB which will disable reviews on your profile. Adding to that, I told Ven that if I were to add (I still don&apos;t support it) I would put a deleted indicator on reviews that were deleted by the profile owner just like WhatsApp, but he straight refused it.
               <br />
             </span>
             {
               // TODO: add markdown support
             }
-            I am not writing this to cause some sort of drama or something, I just don't want people to think we let harassment on ReviewDB, for that we have a report system which we check regularly adding to that we let people opt out completely.
+            I am not writing this to cause some sort of drama or something, I just don&apos;t want people to think we let harassment on ReviewDB, for that we have a report system which we check regularly adding to that we let people opt out completely.
             <br />
             <br />
 
@@ -36,4 +36,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Home
