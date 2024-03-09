@@ -20,3 +20,5 @@ export async function GET(request: Request): Promise<Response> {
   })
   return new Response(JSON.stringify(response))
 }
+
+export const runtime = 'edge'

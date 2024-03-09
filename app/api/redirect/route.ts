@@ -42,3 +42,5 @@ export async function GET(request: Request): Promise<Response | undefined> {
   // Add an ending return statement to handle the case where none of the conditions are met.
   return new Response(JSON.stringify({ error: 'Failed to log in', details: `An unexpected error occurred. Please try again, or join our Discord server for support: ${request.headers.get('host')!}/discord` }), { status: 500 })
 }
+
+export const runtime = 'edge'
