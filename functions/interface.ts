@@ -160,3 +160,10 @@ export interface Settings {
   DiscordID: string | null;
   opt: boolean;
 }
+
+export interface LeaderboardUser {
+  username: string;
+  discord_id : string;
+  review_count: number;
+  avatar_url: string;
+}

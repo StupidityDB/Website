@@ -3,7 +3,7 @@
     add pagination to getReviews() and implement it in the frontend
 */
 
-import { AddReview, DeleteReview, GetReviews, GetUser, ReportReview, Settings } from '@global/functions/interface'
+import { AddReview, DeleteReview, GetReviews, GetUser, LeaderboardUser, ReportReview, Settings } from '@global/functions/interface'
 
 export const API_BASE_URL = 'https://manti.vendicated.dev' as string
 
@@ -158,4 +158,11 @@ export function oauthGithub({ code, token }: { code: string, token:string }): Pr
       'Authorization': token
     },
   })
+}
+
+export async function getLeaderboard(): Promise<LeaderboardUser[]> {
+  return await fetch(`${API_BASE_URL}/api/reviewdb/leaderboard`, {
+    method: 'GET',
+    headers: {},
+  }).then((res) => res.json())
 }
