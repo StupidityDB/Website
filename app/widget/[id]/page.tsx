@@ -1,5 +1,7 @@
 'use client'
 
+export const runtime = 'edge'
+
 import React from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image'

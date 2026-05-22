@@ -10,8 +10,10 @@ import { FaDiscord } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { usePathname } from 'next/navigation'
 
 const TopBar: React.FC = (): JSX.Element => {
+  const pathname = usePathname()
   const [user, setUser] = React.useState<GetUser | null>(null)
   const [dropdownVisible, setDropdownVisible] = React.useState(false)
   const [buttonState, setButtonState] = React.useState('dashboard')
@@ -19,7 +21,7 @@ const TopBar: React.FC = (): JSX.Element => {
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    if (location.pathname === '/dashboard' || location.pathname === '/') {
+    if (pathname === '/dashboard' || pathname === '/') {
       setButtonState('dashboard')
     } else {
       setButtonState('me')
@@ -47,7 +49,7 @@ const TopBar: React.FC = (): JSX.Element => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  }, [pathname])
 
   const toggleDropdown = (): void => {
     setDropdownVisible(!dropdownVisible)
@@ -101,7 +103,7 @@ const TopBar: React.FC = (): JSX.Element => {
               </button>
               {dropdownVisible && (
                 <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-white text-slate-100 border border-slate-100 rounded shadow-md z-[100]'>
-                  {location.pathname !== '/dashboard/me' ? (
+                  {pathname !== '/dashboard/me' ? (
                     <Link href='/dashboard/me' onClick={() => setButtonState('me')}>
                       <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
                         My profile
