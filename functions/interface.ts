@@ -57,11 +57,14 @@ export interface Review {
   type: number;
   timestamp: number;
   query?: string; // not part of the api response, added when needed
+  score?: number; // upvote score for review
 }
 export interface GetReviews {
   success: boolean;
   message: string;
   reviews: Review[];
+  reviewCount?: number;
+  review_count?: number;
 }
 
 /* adding reviews */

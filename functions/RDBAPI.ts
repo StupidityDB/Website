@@ -166,3 +166,57 @@ export async function getLeaderboard(): Promise<LeaderboardUser[]> {
     headers: {},
   }).then((res) => res.json())
 }
+
+export function getUserInfoByID({ discordID }: { discordID: string }): Promise<{
+  discordID: string
+  username: string
+  profilePhoto: string
+  badges: any[]
+  type: number
+  optedOut: boolean
+} | null> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/users/${discordID}`, {
+    method: 'GET',
+    headers: {},
+  })
+    .then((res) => {
+      if (res.status === 404) return null
+      return res.json()
+    })
+    .catch((err: Error) => {
+      console.log(err)
+      return null
+    })
+}
+
+export function voteReview({ reviewID, token, isUpvote }: { reviewID: number; token: string; isUpvote: boolean }): Promise<any> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/reviews/${reviewID}/vote`, {
+    method: 'POST',
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      isUpvote: isUpvote,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err: Error) => {
+      console.log(err)
+      return null
+    })
+}
+
+export function getReviewVotes({ discordID, token }: { discordID: string; token: string }): Promise<{ success: boolean; votes: { reviewID: number; isUpvote: boolean }[] } | null> {
+  return fetch(`${API_BASE_URL}/api/reviewdb/users/${discordID}/reviews/votes`, {
+    method: 'GET',
+    headers: {
+      'Authorization': token,
+    },
+  })
+    .then((res) => res.json())
+    .catch((err: Error) => {
+      console.log(err)
+      return null
+    })
+}

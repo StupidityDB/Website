@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReviewDB - Widget Integration Example</title>
+  <!-- Modern Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Premium Modern Dark Theme Design Tokens */
+    :root {
+      --bg-dark: #090a0f;
+      --bg-card: rgba(17, 19, 31, 0.65);
+      --bg-card-border: rgba(255, 255, 255, 0.07);
+      --text-primary: #f4f4f7;
+      --text-secondary: #9b9ea4;
+      --accent-glow: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+      --accent-purple: #8b5cf6;
+      --accent-indigo: #6366f1;
+      --glow-shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.15);
+      --card-shadow: 0 12px 48px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(79, 70, 229, 0.09) 0%, transparent 50%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Outer Wrapper Container */
+    .container {
+      width: 100%;
+      max-width: 1300px;
+      padding: 60px 24px;
+      margin: 0 auto;
+    }
+
+    /* Premium Header Area */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 56px;
+      position: relative;
+    }
+
+    .badge {
+      font-family: 'Outfit', sans-serif;
+      background: var(--accent-glow);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      margin-bottom: 18px;
+      box-shadow: var(--glow-shadow);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    p.subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+    }
+
+    /* Main Grid Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Glassmorphism Cards */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(124, 58, 237, 0.3);
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      padding: 4px;
+      background: var(--accent-glow);
+      box-shadow: var(--glow-shadow);
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #11131f;
+      border: 3px solid #090a0f;
+    }
+
+    .user-meta h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .user-meta p {
+      color: var(--accent-purple);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .bio-text {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* Section titles inside cards */
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+    }
+
+    .section-title span {
+      background: var(--accent-glow);
+      width: 8px;
+      height: 22px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* Skill badges */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .skill-tag:hover {
+      background: rgba(124, 58, 237, 0.12);
+      border-color: rgba(124, 58, 237, 0.35);
+      color: #fff;
+    }
+
+    /* Embedded Widget Card Container */
+    .widget-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .widget-wrapper {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      height: 520px;
+    }
+
+    .widget-wrapper:hover {
+      border-color: rgba(124, 58, 237, 0.2);
+      box-shadow: 0 8px 30px rgba(124, 58, 237, 0.06);
+    }
+
+    /* 
+      ========================================================================
+      HIGH RESOLUTION WIDGET IFRAME
+      No blur-inducing 'transform: scale' is used here!
+      The iframe is scaled internally by the browser using the ?scale=1.2 query 
+      parameter, which renders all vector text and images at crystal-clear, 
+      native pixel density.
+      ========================================================================
+    */
+    .widget-iframe {
+      border: none;
+      border-radius: 12px;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .widget-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      padding: 4px 8px;
+    }
+
+    .btn-link {
+      color: var(--accent-purple);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .btn-link:hover {
+      color: #a78bfa;
+      text-shadow: 0 0 8px rgba(167, 139, 250, 0.4);
+    }
+
+    /* Page Footer */
+    footer.page-footer {
+      margin-top: 100px;
+      padding: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      width: 100%;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    footer.page-footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer.page-footer a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Premium Header -->
+    <header>
+      <div class="badge">Live Demo</div>
+      <h1>ReviewDB Widget Embed</h1>
+      <p class="subtitle">A premium, beautiful example demonstrating how to integrate your custom ReviewDB Profile Widget into your website, dev portfolio, or blog.</p>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="main-grid">
+      
+      <!-- Left Column: Premium Profile Info -->
+      <div class="card profile-card">
+        
+        <div class="user-info">
+          <div class="avatar-wrapper">
+            <img class="avatar" src="http://localhost:8080/defaultAvatar.png" alt="Developer Avatar">
+          </div>
+          <div class="user-meta">
+            <h2>mantikafasi</h2>
+            <p>Full-Stack Engineer & Creator</p>
+          </div>
+        </div>
+
+        <div class="bio-section">
+          <div class="section-title">
+            <span></span>About Me
+          </div>
+          <p class="bio-text">
+            Hey there! I build gorgeous, interactive web apps using modern frameworks and premium design systems. This page showcases the seamless integration of our Discord-style feedback widget.
+          </p>
+        </div>
+
+        <div class="skills-section">
+          <div class="section-title">
+            <span></span>Skills
+          </div>
+          <div class="skills-list">
+            <div class="skill-tag">Next.js</div>
+            <div class="skill-tag">TypeScript</div>
+            <div class="skill-tag">Go (Golang)</div>
+            <div class="skill-tag">Tailwind CSS</div>
+            <div class="skill-tag">PostgreSQL</div>
+            <div class="skill-tag">API Design</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: ReviewDB Embed Widget Container (Crisp, scaled natively via URL parameter) -->
+      <div class="card widget-container">
+        
+        <div class="section-title">
+          <span></span>Profile Reviews
+        </div>
+
+        <div class="widget-wrapper">
+          <!-- 
+            We pass the query parameter `?scale=1.2` directly.
+            The widget parses this parameter and applies standard high-resolution 
+            rendering inside its own layout, resulting in crystal-clear vector text!
+          -->
+          <iframe 
+            src="http://localhost:8080/widget/287555395151593473?scale=1.2" 
+            class="widget-iframe"
+            title="ReviewDB User Reviews Widget">
+          </iframe>
+        </div>
+
+        <div class="widget-footer">
+          <span>Powered by <a class="btn-link" href="http://localhost:8080/" target="_blank">ReviewDB</a></span>
+          <a class="btn-link" href="http://localhost:8080/users/287555395151593473" target="_blank">Write a Review &rarr;</a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Page Footer -->
+  <footer class="page-footer">
+    <p>Created for <a href="http://localhost:8080" target="_blank">ReviewDB Website</a> integration. Ready to copy, customize, and style.</p>
+  </footer>
+
+</body>
+</html>

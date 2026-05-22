@@ -1,6 +1,6 @@
 import Toggle from '@global/app/dashboard/settings/Toggle'
 import { getRDBSettings, setRDBSettings } from '@global/functions/RDBAPI'
-import { Settings } from '@global/functions/interface'
+import type { Settings } from '@global/functions/interface'
 import { getCookieItem } from '@global/functions/cookieUtils'
 import { notify } from '@global/functions/showToast'
 import React from 'react'
