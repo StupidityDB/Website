@@ -272,6 +272,13 @@ export async function getAdminReports({ token, limit = 20, offset = 0 }: { token
   return response.json()
 }
 
+export async function dismissAdminReports({ reportIDs, token }: { reportIDs: number[]; token: string }): Promise<boolean> {
+  const response = await fetch(`${API_BASE_URL}/api/reviewdb/admin/reports`, {
+    method: 'DELETE', headers: adminHeaders(token), body: JSON.stringify({ reportIDs }),
+  })
+  return response.ok
+}
+
 export async function banAdminUser({ id, reviewID, days, token }: { id: string; reviewID?: number; days: 1 | 3 | 7 | 30; token: string }): Promise<{ success: boolean; message?: string } | null> {
   const response = await fetch(`${API_BASE_URL}/api/reviewdb/admin/users/${id}/ban`, {
     method: 'POST', headers: adminHeaders(token), body: JSON.stringify({ days, reviewID }),
