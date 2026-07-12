@@ -2,7 +2,7 @@ import React from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { FaSearch, FaDatabase, FaListUl } from 'react-icons/fa'
+import { FaSearch, FaListUl } from 'react-icons/fa'
 
 import { handleClick } from '@global/app/dashboard/dashboardUtils/handleClick'
 import useAdminState from '@global/app/dashboard/dashboardUtils/useAdminState'
@@ -55,7 +55,7 @@ const Dashboard: React.FC = (): JSX.Element => {
   }
 
   return (
-    <div className='flex flex-col flex-1 min-h-0 w-full select-none'>
+    <div className='flex flex-col flex-1 min-h-0 w-full'>
       
       {/* Discord-style Dashboard Header */}
       <div className='flex items-center justify-between border-b border-[#3f4147]/40 pb-4 mb-5 select-none flex-shrink-0'>
@@ -105,31 +105,25 @@ const Dashboard: React.FC = (): JSX.Element => {
       <div className='flex-1 min-h-0 flex flex-col'>
         {reviews.length === 0 && !loading ? (
           /* Empty / Initial State */
-          <div className='flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-slate-800/40 rounded-2xl bg-[#1e1f22]/15 max-w-xl mx-auto my-auto min-h-[260px] select-none'>
-            <div className='bg-[#2b2d31] p-5 rounded-full text-[#5865F2] mb-5 text-4xl shadow-inner border border-slate-800/30'>
-              <FaDatabase />
-            </div>
-            <h3 className='text-white text-lg font-bold mb-2 gg-bold'>Search the ReviewDB Directory</h3>
-            <p className='text-slate-400 text-xs gg-normal leading-relaxed mb-4 max-w-md'>
-              Lookup any Discord user by their ID to inspect their badge profile and reviews history, or search matching reviews.
+          <div className='flex-1 flex flex-col items-center justify-center text-center gap-2 p-8 select-none'>
+            <h3 className='text-slate-200 text-base gg-semibold'>Search for a user</h3>
+            <p className='text-slate-500 text-sm gg-normal max-w-sm leading-relaxed'>
+              Look up a Discord user by their ID to see the reviews on their profile{admin === 1 ? ', or search review contents' : ''}.
             </p>
-            <div className='flex flex-wrap justify-center gap-2 text-[11px] text-slate-500 font-mono'>
-              <span className='bg-[#1e1f22] px-2.5 py-1.5 rounded border border-slate-800/50'>ID lookup: 915703782174752809</span>
-              {admin === 1 && (
-                <span className='bg-[#1e1f22] px-2.5 py-1.5 rounded border border-slate-800/50'>Query: &quot;cool plugin&quot;</span>
-              )}
-            </div>
+            <span className='text-xs text-slate-600 font-mono mt-1.5'>e.g. 915703782174752809</span>
           </div>
         ) : (
-          /* Result Grid Grid */
+          /* Result feed, Discord message style */
           <div className='flex-grow min-h-0 flex flex-col gap-3'>
             <div className='flex items-center gap-2 text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1 select-none flex-shrink-0'>
               <FaListUl size={12} className='text-slate-500' />
               <span>Search Results</span>
               <span className='bg-[#1e1f22]/80 border border-slate-800/40 text-[#dbdee1] px-2 py-0.5 rounded-full text-[10px]'>{reviews.length} items</span>
             </div>
-            <div className='flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 overflow-y-auto pr-1 scrollbarStyle pb-4'>
-              {reviews}
+            <div className='flex-1 min-h-0 flex flex-col bg-surface-3 border border-white/5 rounded-xl overflow-hidden'>
+              <div className='flex-1 overflow-y-auto px-1.5 sm:px-2 pt-4 pb-2 flex flex-col gap-0.5 scrollbarStyle'>
+                {reviews}
+              </div>
             </div>
           </div>
         )}

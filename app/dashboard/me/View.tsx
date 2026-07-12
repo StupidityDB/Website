@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { FaExternalLinkAlt, FaInbox } from 'react-icons/fa'
+import { FaExternalLinkAlt } from 'react-icons/fa'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -55,7 +55,7 @@ const View: React.FC = (): JSX.Element => {
           <div className='flex flex-col min-w-0'>
             <h1 className='text-xl sm:text-2xl gg-bold text-white truncate'>Reviews on my profile</h1>
             <p className='text-sm text-slate-400 gg-normal'>
-              {loading ? 'Loading…' : `${reviews.length} review${reviews.length === 1 ? '' : 's'}`} — you can delete any review left on your profile.
+              {loading ? 'Loading...' : `${reviews.length} review${reviews.length === 1 ? '' : 's'}`}
             </p>
           </div>
         </div>
@@ -73,17 +73,14 @@ const View: React.FC = (): JSX.Element => {
           <AiOutlineLoading3Quarters className='animate-spin text-2xl' />
         </div>
       ) : reviews.length === 0 ? (
-        <div className='flex flex-col items-center justify-center text-center gap-3 py-16 card border-dashed'>
-          <div className='bg-surface-3 p-4 rounded-full text-slate-400 text-3xl'>
-            <FaInbox />
-          </div>
-          <h2 className='text-lg gg-semibold text-white'>No reviews yet</h2>
-          <p className='text-sm text-slate-400 gg-normal max-w-sm'>
-            Nobody has reviewed your profile so far. Share your profile and the reviews will show up here.
+        <div className='flex flex-col items-center justify-center text-center gap-2 py-20'>
+          <h2 className='text-base gg-semibold text-slate-200'>No reviews yet</h2>
+          <p className='text-sm text-slate-500 gg-normal max-w-sm'>
+            Nobody has reviewed your profile so far.
           </p>
         </div>
       ) : (
-        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 pb-2'>
+        <div className='flex flex-col gap-0.5 bg-surface-3 border border-white/5 rounded-xl px-1.5 sm:px-2 pt-4 pb-2 mb-2'>
           {reviews.map((review) => (
             <ReviewCard
               key={review.id}

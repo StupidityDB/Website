@@ -14,7 +14,7 @@ const Download = (): JSX.Element => {
     <div className='flex flex-col gap-6 w-full'>
       <div className='flex flex-col gap-1.5'>
         <h1 className='text-2xl sm:text-3xl gg-bold text-white'>Download ReviewDB</h1>
-        <p className='text-sm sm:text-base text-slate-400 gg-normal'>Pick your platform — ReviewDB is available as a plugin for every major Discord client mod.</p>
+        <p className='text-sm sm:text-base text-slate-400 gg-normal'>ReviewDB is available as a plugin for most Discord client mods.</p>
       </div>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 pb-2'>

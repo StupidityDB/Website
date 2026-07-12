@@ -72,7 +72,7 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
         <button className='button !bg-orange-600 hover:!bg-orange-700 text-sm' onClick={() => handleReportReviewClick(review.id)}>Report</button>
         {canDelete && (
           <button className='button-danger text-sm' onClick={onDeleteClick} disabled={deleting}>
-            {deleting ? 'Deleting…' : confirmingDelete ? 'Click again to confirm' : 'Delete'}
+            {deleting ? 'Deleting...' : confirmingDelete ? 'Click again to confirm' : 'Delete'}
           </button>
         )}
       </div>

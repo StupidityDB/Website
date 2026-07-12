@@ -16,7 +16,7 @@ export default async function Leaderboard(): Promise<JSX.Element> {
     <div className='flex flex-col gap-6 w-full max-w-3xl mx-auto'>
       <div className='flex flex-col gap-1.5'>
         <h1 className='text-2xl sm:text-3xl gg-bold text-white'>Leaderboard</h1>
-        <p className='text-sm sm:text-base text-slate-400 gg-normal'>The most reviewed users on ReviewDB.</p>
+        <p className='text-sm sm:text-base text-slate-400 gg-normal'>Top users by review count.</p>
       </div>
 
       <ol className='flex flex-col gap-2 pb-2'>

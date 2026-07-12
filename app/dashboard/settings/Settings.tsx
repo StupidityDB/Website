@@ -57,7 +57,7 @@ const Settings: React.FC = (): JSX.Element => {
             </div>
             <div className='flex justify-end p-4'>
               <button className='button text-sm' onClick={saveSettings} disabled={saving}>
-                {saving ? 'Saving…' : 'Save Settings'}
+                {saving ? 'Saving...' : 'Save Settings'}
               </button>
             </div>
           </div>

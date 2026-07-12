@@ -10,8 +10,8 @@ const Home = () => {
       `
       }} />
       <div className='flex-1 flex flex-col justify-center items-center gap-3 text-center py-12'>
-        <h1 className='text-4xl gg-bold text-transparent bg-clip-text bg-gradient-to-r from-blurple via-sky-400 to-blurple'>ReviewDB</h1>
-        <h2 className='gg-semibold text-slate-300'>Redirecting to our Discord…</h2>
+        <h1 className='text-4xl gg-bold text-white'>ReviewDB</h1>
+        <h2 className='gg-normal text-slate-400'>Redirecting to our Discord...</h2>
       </div>
     </>
   )
