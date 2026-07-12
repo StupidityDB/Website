@@ -91,6 +91,8 @@ const TopBar: React.FC = (): JSX.Element => {
   const isActive = (href: string): boolean =>
     href === '/dashboard' ? (pathname === '/dashboard' || pathname === '/') : pathname.startsWith(href)
 
+  const canModerate = user?.type === 1
+
   return (
     <header className='flex-shrink-0 z-40 border-b border-white/5 bg-surface-1/85 backdrop-blur-md'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3'>
@@ -108,6 +110,11 @@ const TopBar: React.FC = (): JSX.Element => {
               {label}
             </Link>
           ))}
+          {canModerate && (
+            <Link href='/dashboard/moderation' className={`navLink ${isActive('/dashboard/moderation') ? 'navLinkActive' : ''}`}>
+              Moderation
+            </Link>
+          )}
         </nav>
 
         {/* Right side: profile / login */}
@@ -139,6 +146,12 @@ const TopBar: React.FC = (): JSX.Element => {
                     <FaGavel size={13} className='text-slate-400' />
                     Appeal Ban
                   </Link>
+                  {canModerate && (
+                    <Link href='/dashboard/moderation' className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors'>
+                      <FaGavel size={13} className='text-slate-400' />
+                      Moderation
+                    </Link>
+                  )}
                   <div className='h-px bg-white/5 my-1.5 mx-2' />
                   <button
                     className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors'
@@ -188,6 +201,7 @@ const TopBar: React.FC = (): JSX.Element => {
               <Link href='/dashboard/me' className='navLink !py-2.5'>My Profile</Link>
               <Link href='/dashboard/settings' className='navLink !py-2.5'>Settings</Link>
               <Link href='/dashboard/appeal' className='navLink !py-2.5'>Appeal Ban</Link>
+              {canModerate && <Link href='/dashboard/moderation' className='navLink !py-2.5'>Moderation</Link>}
             </>
           )}
         </nav>

@@ -58,6 +58,7 @@ export interface Review {
   timestamp: number;
   query?: string; // not part of the api response, added when needed
   score?: number; // upvote score for review
+  missing?: boolean;
 }
 export interface GetReviews {
   success: boolean;
