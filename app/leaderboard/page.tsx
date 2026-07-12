@@ -16,7 +16,7 @@ export default async function Leaderboard(): Promise<JSX.Element> {
     <div className='flex flex-col gap-6 w-full max-w-3xl mx-auto'>
       <div className='flex flex-col gap-1.5'>
         <h1 className='text-2xl sm:text-3xl gg-bold text-white'>Leaderboard</h1>
-        <p className='text-sm sm:text-base text-slate-400 gg-normal'>Top users by review count.</p>
+        <p className='text-sm sm:text-base text-slate-400 gg-normal'>Most reviewed users on ReviewDB.</p>
       </div>
 
       <ol className='flex flex-col gap-2 pb-2'>
@@ -33,7 +33,7 @@ export default async function Leaderboard(): Promise<JSX.Element> {
               <span className='text-sm sm:text-base gg-semibold text-slate-100 truncate flex-1'>{user.username}</span>
               <span className='flex flex-col items-end flex-shrink-0'>
                 <span className='text-base sm:text-lg gg-bold text-white tabular-nums'>{user.review_count}</span>
-                <span className='text-[11px] uppercase tracking-wider text-slate-500 gg-semibold'>reviews</span>
+                <span className='text-[11px] uppercase tracking-wider text-slate-500 gg-semibold'>received</span>
               </span>
             </Link>
           </li>
