@@ -18,14 +18,19 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   }
 
   return (
-    <>
+    <div className='flex flex-col h-full'>
+      {/* Subtle brand glow behind the whole app */}
+      <div aria-hidden className='pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(60%_45%_at_50%_-10%,rgba(88,101,242,0.16),transparent_70%)]' />
+
       <TopBar />
-      <div className='flex justify-center md:h-[75vh] h-[85vh]' id='root'>
-        <div className='flex flex-col sectionBackground py-6 px-8 rounded-xl text-slate-100 w-full overflow-hidden'>
+
+      <main id='root' className='flex-1 min-h-0 overflow-y-auto scrollbarStyle'>
+        <div className='flex flex-col min-h-full w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6'>
           {children}
         </div>
-      </div>
+      </main>
+
       <BottomBar />
-    </>
+    </div>
   )
 }

@@ -26,6 +26,15 @@ export const handleClick = async ({
     setQueryParameterValue({ param: 'query', value })
   }
 
+  // Delete the review, then drop its card from the results without a refetch
+  const handleDelete = async (reviewId: number, discordId: string): Promise<boolean> => {
+    const success = await handleDeleteReviewClick(reviewId, discordId)
+    if (success) {
+      setReviews((prev) => prev.filter((card) => card.key !== String(reviewId)))
+    }
+    return success
+  }
+
   const processReviews = (reviews: Review[], query?: string, callback?: () => void): void => {
     if (!reviews || reviews.length === 0) {
       notify({ message: `No reviews found for this ${query ? 'query' : 'user'}`, type: 'error' })
@@ -39,7 +48,7 @@ export const handleClick = async ({
           key={review.id}
           review={{ ...review, query }}
           handleReportReviewClick={handleReportReviewClick}
-          handleDeleteReviewClick={handleDeleteReviewClick}
+          handleDeleteReviewClick={handleDelete}
           isAdmin={admin}
         />
       ))

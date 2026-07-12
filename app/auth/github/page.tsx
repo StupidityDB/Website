@@ -16,7 +16,7 @@ function GithubAuth(): JSX.Element{
   console.log(token,code)
   if (!token || !code) {
     return (
-      <div className='flex justify-center items-center h-screen'>
+      <div className='flex-1 flex justify-center items-center py-12'>
         <> {
           (token) ? 'Code not found' : 'You must to be logged in to link your GitHub account'
         } </>
@@ -41,7 +41,7 @@ function GithubAuth(): JSX.Element{
   })
 
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div className='flex-1 flex justify-center items-center py-12'>
       <> {state} </>
     </div>
   )

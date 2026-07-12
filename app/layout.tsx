@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <html className='bg-[#313338]' lang='en'>
+    <html className='bg-surface-1' lang='en'>
       <head>
         <meta charSet='utf-8' />
         <meta content='IE=edge' httpEquiv='X-UA-Compatible' />
@@ -42,7 +42,7 @@ export default function RootLayout({
 
         <link rel='icon' href='/favicon.ico' />
       </head>
-      <body className='flex flex-col p-4 cursor-default gap-6 antialiased'>
+      <body className='h-dvh text-slate-100 font-sans antialiased'>
         <LayoutWrapper>
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </LayoutWrapper>

@@ -1,4 +1,3 @@
-// components/ReviewDialogContent.tsx
 import { ReviewDialogContentProps } from '@global/functions/interface'
 import { getCookieItem } from '@global/functions/cookieUtils'
 import Image from 'next/image'
@@ -11,38 +10,71 @@ const ReviewDialogContent: React.FC<ReviewDialogContentProps> = ({
   closeDialog,
   isAdmin,
 }): JSX.Element => {
+  const canDelete = isAdmin == 1 || JSON.parse(getCookieItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id
+  const [confirmingDelete, setConfirmingDelete] = React.useState(false)
+  const [deleting, setDeleting] = React.useState(false)
+
+  const onDeleteClick = async (): Promise<void> => {
+    if (!confirmingDelete) {
+      setConfirmingDelete(true)
+      return
+    }
+    setDeleting(true)
+    const success = await handleDeleteReviewClick(review.id, review.sender.discordID)
+    setDeleting(false)
+    setConfirmingDelete(false)
+    if (success) closeDialog()
+  }
+
+  const infoRows: Array<{ label: string, value: React.ReactNode }> = [
+    { label: 'Review ID', value: review.id },
+    { label: 'Review Date', value: new Date(review.timestamp * 1000).toLocaleString() },
+    ...(review.query ? [{ label: 'Found under', value: review.query }] : []),
+    { label: 'Discord ID', value: review.sender.discordID },
+    { label: 'Sender ID', value: review.sender.id },
+  ]
+
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex gap-4 items-center'>
-        <Image src={review.sender.profilePhoto} alt='User Avatar' width={45} height={45} className='rounded-full' draggable='false' />
-        <p className='flex flex-col text-2xl overflow-scroll scrollbar-none gg-semibold'>
-          {review.sender.username}
-          {review.sender.badges && <div className='flex gap-2'>{review.sender.badges.map(i => <Image key={i.icon} src={i.icon} width={20} height={20} title={i.description || i.name} alt={i.name || 'Badge'} />)}</div>}
-        </p>
-      </div>
-      <div className='flex flex-col gap-4 mb-2'>
-        <p className='gg-normal'>{review.comment}</p>
-        <div className='w-full h-[1px] my-1 bg-slate-200/25'></div>
-        <div className='flex flex-col gap-2'>
-          <p className='md:text-2xl text-xl text-slate-300 gg-semibold'>Review Information</p>
-          <div className='flex flex-col gap-1'>
-            <p className='gg-normal text-slate-300'>Review ID: <span className='gg-italic'>{review.id}</span></p>
-            <p className='gg-normal text-slate-300'>Review Date: <span className='gg-italic'>{new Date(review.timestamp * 1000).toLocaleString()}</span></p>
-            {review.query && <p className='text-slate-300'>Found under: <span className='gg-italic'>{review.query}</span></p>}
-          </div>
-          <p className='md:text-2xl text-xl text-slate-300 gg-semibold'>User Information</p>
-          <div className='flex flex-col gap-1'>
-            <p className='gg-normal text-slate-300'>Discord ID: <span className='gg-italic'>{review.sender.discordID}</span></p>
-            <p className='gg-normal text-slate-300'>Sender ID: <span className='gg-italic'>{review.sender.id}</span></p>
-          </div>
+    <div className='flex flex-col gap-5'>
+      {/* Sender */}
+      <div className='flex gap-3.5 items-center min-w-0'>
+        <Image src={review.sender.profilePhoto || '/defaultAvatar.png'} alt='User Avatar' width={48} height={48} className='rounded-full flex-shrink-0' draggable='false' unoptimized />
+        <div className='flex flex-col min-w-0'>
+          <span className='text-lg gg-semibold text-white truncate'>{review.sender.username}</span>
+          {review.sender.badges && review.sender.badges.length > 0 && (
+            <div className='flex flex-wrap gap-1.5 mt-1'>
+              {review.sender.badges.map(badge => (
+                <Image key={badge.icon} src={badge.icon} width={18} height={18} title={badge.description || badge.name} alt={badge.name || 'Badge'} unoptimized />
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      <div className='flex gap-4 mt-4'>
-        <button className='button !bg-orange-700 hover:!bg-orange-800' onClick={() => handleReportReviewClick(review.id)}>Report</button>
-        {isAdmin == 1 || JSON.parse(getCookieItem({ key: 'rdbUserInfo', defaultValue: '{}' }))['ID'] === review.sender.id ? (
-          <button className='button !bg-red-700 hover:!bg-red-800' onClick={() => handleDeleteReviewClick(review.id, review.sender.discordID)}>Delete</button>
-        ) : null}
-        <button onClick={closeDialog} className='button !bg-gray-500 hover:!bg-gray-600'>Close</button>
+
+      {/* Comment */}
+      <p className='gg-normal text-slate-200 leading-relaxed break-words whitespace-pre-wrap bg-surface-0/60 border border-white/5 rounded-lg p-3.5'>
+        {review.comment}
+      </p>
+
+      {/* Details */}
+      <div className='flex flex-col divide-y divide-white/5 rounded-lg border border-white/5 overflow-hidden'>
+        {infoRows.map(({ label, value }) => (
+          <div key={label} className='flex items-center justify-between gap-4 px-3.5 py-2.5 text-sm'>
+            <span className='text-slate-400 gg-normal flex-shrink-0'>{label}</span>
+            <span className='text-slate-200 font-mono text-xs select-all truncate'>{value}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Actions */}
+      <div className='flex flex-col-reverse sm:flex-row justify-end gap-2.5'>
+        <button onClick={closeDialog} className='button-secondary text-sm'>Close</button>
+        <button className='button !bg-orange-600 hover:!bg-orange-700 text-sm' onClick={() => handleReportReviewClick(review.id)}>Report</button>
+        {canDelete && (
+          <button className='button-danger text-sm' onClick={onDeleteClick} disabled={deleting}>
+            {deleting ? 'Deleting…' : confirmingDelete ? 'Click again to confirm' : 'Delete'}
+          </button>
+        )}
       </div>
     </div>
   )

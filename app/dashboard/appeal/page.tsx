@@ -17,6 +17,8 @@ const Home = (): JSX.Element => {
   const token = getCookieItem({ key: 'rdbToken', defaultValue: null }) as string | null
   const [appealText, setAppealText] = React.useState('')
 
+  const isBanned = !!user?.banInfo || user?.type === -1
+
   const submitAppeal = (): void => {
     if (!token) {
       notify({ type: 'error', message: 'You need to be logged in to submit an appeal' })
@@ -32,53 +34,48 @@ const Home = (): JSX.Element => {
     }
   }
 
+  if (!user) {
+    return <LoginFields />
+  }
+
   return (
     <>
-      {
-        (user) ? (<>
-          <Dialog content={content} isOpen={isOpen} onClose={closeDialog} />
+      <Dialog content={content} isOpen={isOpen} onClose={closeDialog} />
 
-          <div className='flex flex-col gap-4 h-screen items-center'>
-            <h1 className='headerText text-center mb-3'>
-              ReviewDB Appeal Form
-            </h1>
+      <div className='flex flex-col gap-6 w-full max-w-2xl mx-auto'>
+        <div className='flex flex-col gap-1.5'>
+          <h1 className='text-2xl sm:text-3xl gg-bold text-white'>Appeal Ban</h1>
+          <p className='text-sm sm:text-base text-slate-400 gg-normal'>Banned from ReviewDB? Tell us why we should reconsider.</p>
+        </div>
 
-            <LabelledInput label='Why do you think you should be unbanned?' placeholder='Write a reason' onChange={(e) => setAppealText(e.target.value)} />
-            <LabelledInput label='What is your Discord username?' inputValue={user?.username} />
-            <LabelledInput label='What is your Discord ID?' inputValue={user?.discordID} />
-
-            <button className='flex button justify-center items-center mt-auto w-1/3'
-              title='Submit appeal'
-              disabled={!user?.banInfo && user?.type !== -1}
-              onClick={() => {
-                openDialog(<ConfirmationModal title='Warning' message={(
-                  <>
-                    <h3>If you would like us to respond to your appeal, you must join our Discord server</h3>
-                    <a className='link' href='/discord' target='_blank'>You can join here</a>
-                  </>
-                )} onConfirm={submitAppeal} onCancel={closeDialog} />)
-              }}>
-              Submit
-            </button>
-
-            {
-              !user?.banInfo && user?.type !== -1 && (
-                <h1 className='text-center block font-bold text-l text-red-500'>
-                  To submit an appeal you need to be banned
-                </h1>
-              )
-            }
-
-            <div>
-              <div className='flex items-start gap-4 max-w-full overflow-auto overflow-x-hidden md:max-h-[63vh] max-h-[65vh] flex-wrap scrollbarStyle'>
-              </div>
-            </div>
-            <ToastContainer />
+        {!isBanned && (
+          <div className='flex items-center gap-3 rounded-lg border border-orange-500/30 bg-orange-500/10 text-orange-300 px-4 py-3 text-sm gg-normal'>
+            To submit an appeal you need to be banned — your account is in good standing.
           </div>
-        </>) : (
-          <LoginFields />
-        )
-      }
+        )}
+
+        <div className='card flex flex-col gap-5 p-5 sm:p-6'>
+          <LabelledInput multiline label='Why do you think you should be unbanned?' placeholder='Write a reason' onChange={(e) => setAppealText(e.target.value)} />
+          <LabelledInput label='Your Discord username' inputValue={user?.username} />
+          <LabelledInput label='Your Discord ID' inputValue={user?.discordID} />
+
+          <button className='button self-end'
+            title='Submit appeal'
+            disabled={!isBanned}
+            onClick={() => {
+              openDialog(<ConfirmationModal title='Warning' message={(
+                <>
+                  <p>If you would like us to respond to your appeal, you must join our Discord server.</p>
+                  <a className='link' href='/discord' target='_blank'>You can join here</a>
+                </>
+              )} onConfirm={submitAppeal} onCancel={closeDialog} />)
+            }}>
+            Submit Appeal
+          </button>
+        </div>
+
+        <ToastContainer />
+      </div>
     </>
   )
 }

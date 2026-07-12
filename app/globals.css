@@ -2,105 +2,144 @@
 @tailwind components;
 @tailwind utilities;
 
+/* gg sans — one family, real weights, so bold/italic combine correctly */
 @font-face {
-  font-family: 'gg-normal';
+  font-family: 'gg sans';
   src: url('/fonts/ggsans-Normal.woff2') format('woff2');
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-.gg-normal {
-  font-family: 'gg-normal', system-ui, sans-serif;
+
+@font-face {
+  font-family: 'gg sans';
+  src: url('/fonts/ggsans-NormalItalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'gg-medium';
+  font-family: 'gg sans';
   src: url('/fonts/ggsans-Medium.woff2') format('woff2');
   font-weight: 500;
-  font-style: italic;
+  font-style: normal;
   font-display: swap;
-}
-.gg-medium {
-  font-family: 'gg-medium', system-ui, sans-serif;
 }
 
 @font-face {
-  font-family: 'gg-italic';
-  src: url('/fonts/ggsans-NormalItalic.woff2') format('woff2');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-.gg-italic {
-  font-family: 'gg-italic', system-ui, sans-serif;
-}
-
-@font-face {
-  font-family: 'gg-semibold';
+  font-family: 'gg sans';
   src: url('/fonts/ggsans-Semibold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
-.gg-semibold {
-  font-family: 'gg-semibold', system-ui, sans-serif;
-}
 
 @font-face {
-  font-family: 'gg-bold';
+  font-family: 'gg sans';
   src: url('/fonts/ggsans-Bold.woff2') format('woff2');
-  font-weight: bold;
-  font-style: italic;
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
+
+/* Legacy font helpers — now map to weights of the single family */
+.gg-normal {
+  font-family: 'gg sans', system-ui, sans-serif;
+  font-weight: 400;
+}
+.gg-medium {
+  font-family: 'gg sans', system-ui, sans-serif;
+  font-weight: 500;
+}
+.gg-italic {
+  font-family: 'gg sans', system-ui, sans-serif;
+  font-style: italic;
+}
+.gg-semibold {
+  font-family: 'gg sans', system-ui, sans-serif;
+  font-weight: 600;
+}
 .gg-bold {
-  font-family: 'gg-bold', system-ui, sans-serif;
+  font-family: 'gg sans', system-ui, sans-serif;
+  font-weight: 700;
 }
 
-.sectionBackground {
-  @apply border border-slate-200/25 bg-slate-500/25 backdrop-blur-sm;
+@layer base {
+  html {
+    @apply bg-surface-1 text-slate-100;
+    color-scheme: dark;
+  }
+
+  ::selection {
+    @apply bg-blurple/40 text-white;
+  }
 }
 
-.headerText {
-  @apply lg:text-3xl text-2xl font-semibold text-sky-400 gg-medium gg-semibold;
-}
+@layer components {
+  .card {
+    @apply bg-surface-2 border border-white/5 rounded-xl shadow-lg;
+  }
 
-.metricsText {
-  @apply flex justify-around items-center w-full text-2xl gg-normal;
-}
+  /* Legacy alias, kept for anything still using it */
+  .sectionBackground {
+    @apply bg-surface-2 border border-white/5 backdrop-blur-sm;
+  }
 
-.input {
-  @apply px-4 py-2 bg-slate-800 border border-slate-200/25 rounded-lg outline-none gg-normal;
-}
+  .headerText {
+    @apply lg:text-3xl text-2xl font-semibold text-white;
+  }
 
-.button:disabled,
-.button[disabled]{
-  cursor: not-allowed !important;
-  @apply bg-gray-600;
-}
-.button:disabled:hover,
-.button[disabled]:hover {
-  @apply bg-gray-600;
-}
+  .metricsText {
+    @apply flex justify-around items-center w-full text-2xl text-slate-200;
+  }
 
-.input:disabled,
-.input[disabled]{
-  cursor: not-allowed !important;
-  @apply bg-gray-700;
-}
+  .input {
+    @apply w-full px-4 py-2.5 bg-surface-0 text-slate-100 placeholder-slate-500 border border-white/10 rounded-lg outline-none transition-colors
+      focus:border-blurple focus:ring-2 focus:ring-blurple/40;
+  }
 
-.button {
-  @apply bg-sky-600 text-white gg-bold px-4 py-2 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700;
-}
+  .input:disabled,
+  .input[disabled] {
+    @apply bg-surface-2 text-slate-400 cursor-not-allowed;
+  }
 
-.loginButton {
-  @apply flex justify-center items-center gap-2 button bg-sky-600 text-white gg-bold py-3 rounded-md transition-bg duration-200 ease-in-out hover:bg-sky-700 text-xs;
-}
+  .button {
+    @apply inline-flex items-center justify-center gap-2 bg-blurple hover:bg-blurple-dark active:bg-blurple-darker text-white font-semibold
+      px-4 py-2 rounded-lg transition-colors duration-150 cursor-pointer select-none
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blurple/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1;
+  }
 
-.link {
-  @apply text-sky-400 hover:text-sky-500 decoration-dotted hover:underline;
-}
+  .button:disabled,
+  .button[disabled] {
+    @apply bg-surface-5 text-slate-300 cursor-not-allowed;
+  }
 
-.scrollbarStyle {
-  @apply scrollbar scrollbar-thumb-slate-800 scrollbar-track-transparent
+  .button-secondary {
+    @apply inline-flex items-center justify-center gap-2 bg-surface-4 hover:bg-surface-5 text-slate-100 font-semibold
+      px-4 py-2 rounded-lg transition-colors duration-150 cursor-pointer select-none border border-white/5
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30;
+  }
+
+  .button-danger {
+    @apply inline-flex items-center justify-center gap-2 bg-red-500/90 hover:bg-red-600 text-white font-semibold
+      px-4 py-2 rounded-lg transition-colors duration-150 cursor-pointer select-none
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/60;
+  }
+
+  .link {
+    @apply text-sky-400 hover:text-sky-300 underline decoration-sky-400/40 underline-offset-2 hover:decoration-sky-300 transition-colors;
+  }
+
+  .navLink {
+    @apply px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors;
+  }
+
+  .navLinkActive {
+    @apply text-white bg-white/10;
+  }
+
+  .scrollbarStyle {
+    @apply scrollbar scrollbar-thumb-surface-5 scrollbar-track-transparent;
+  }
 }

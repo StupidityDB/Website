@@ -97,7 +97,7 @@ export interface HandleClickProps {
   eventOrQuery?: React.MouseEvent | string;
   admin: number | undefined;
   inputValue: string;
-  setReviews: (reviews: JSX.Element[]) => void; // eslint-disable-line no-unused-vars
+  setReviews: React.Dispatch<React.SetStateAction<JSX.Element[]>>;
   setLoading?: (loading: boolean) => void; // eslint-disable-line no-unused-vars
 }
 
@@ -113,7 +113,7 @@ export interface ToggleProps {
 export interface ReviewCardProps {
   review: Review;
   handleReportReviewClick: (reviewId: number) => void; // eslint-disable-line no-unused-vars
-  handleDeleteReviewClick: (reviewId: number, discordId: string) => void; // eslint-disable-line no-unused-vars
+  handleDeleteReviewClick: (reviewId: number, discordId: string) => Promise<boolean>; // eslint-disable-line no-unused-vars
   isAdmin: number | undefined;
 }
 export interface ReviewDialogContentProps extends ReviewCardProps {

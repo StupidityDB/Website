@@ -2,6 +2,7 @@ import ReviewDialogContent from '@global/app/dashboard/ReviewDialogContent'
 import { Dialog, useDialog } from '@global/components/Dialog'
 import { ReviewCardProps } from '@global/functions/interface'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { FaThumbsUp, FaInfoCircle } from 'react-icons/fa'
 
@@ -41,9 +42,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, handleReportReviewClick
             />
           </div>
           <div className='flex flex-col min-w-0 leading-tight'>
-            <span className='text-[15px] font-semibold text-slate-100 truncate hover:underline cursor-pointer gg-semibold'>
+            <Link href={`/users/${review.sender.discordID}`} title={`View ${review.sender.username}'s profile`} className='text-[15px] font-semibold text-slate-100 truncate hover:underline gg-semibold'>
               {review.sender.username}
-            </span>
+            </Link>
             <span className='text-[11px] text-slate-400 font-mono select-all mt-0.5 truncate'>
               @{review.sender.discordID}
             </span>

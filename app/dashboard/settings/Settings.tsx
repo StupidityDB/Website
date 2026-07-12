@@ -11,6 +11,7 @@ const Settings: React.FC = (): JSX.Element => {
   const token = getCookieItem({ key: 'rdbToken', defaultValue: '' })
 
   const [checked, setChecked] = React.useState(false as boolean)
+  const [saving, setSaving] = React.useState(false)
   const [settings, setSettings] = React.useState({} as Settings)
 
   React.useEffect(() => {
@@ -24,6 +25,7 @@ const Settings: React.FC = (): JSX.Element => {
   }, [token]) // using notify as a dependency causes an infinite loop
 
   function saveSettings(): void {
+    setSaving(true)
     setRDBSettings({ settings: { opt: !checked }, token: token }).then((res: Response) => {
       if (res.ok) {
         notify({ message: 'Settings successfully saved', type: 'success' })
@@ -33,18 +35,32 @@ const Settings: React.FC = (): JSX.Element => {
     }).catch((err: Error) => {
       console.log(err)
       notify({ message: err.message, type: 'error' })
-    })
+    }).finally(() => setSaving(false))
   }
 
   return (
-    <div className='flex flex-col md:w-2/3 w-full h-full'>
+    <div className='flex flex-col gap-6 w-full max-w-2xl mx-auto'>
       {settings.DiscordID && (
         <>
-          <h1 className='text-3xl gg-bold mb-4'>Settings</h1>
-          <div className='flex flex-col gap-4 h-screen'>
-            <Toggle onChange={setChecked} checked={checked} label='Let people review me' />
+          <div className='flex flex-col gap-1.5'>
+            <h1 className='text-2xl sm:text-3xl gg-bold text-white'>Settings</h1>
+            <p className='text-sm sm:text-base text-slate-400 gg-normal'>Control how ReviewDB works on your profile.</p>
           </div>
-          <button className='flex button justify-center items-center lg:w-1/3' onClick={saveSettings}>Save Settings</button>
+
+          <div className='card flex flex-col divide-y divide-white/5'>
+            <div className='flex items-center justify-between gap-4 p-5'>
+              <div className='flex flex-col gap-1 min-w-0'>
+                <span className='gg-semibold text-slate-100'>Let people review me</span>
+                <span className='text-sm text-slate-400 gg-normal'>When disabled, your profile is opted out and nobody can leave new reviews on it.</span>
+              </div>
+              <Toggle onChange={setChecked} checked={checked} />
+            </div>
+            <div className='flex justify-end p-4'>
+              <button className='button text-sm' onClick={saveSettings} disabled={saving}>
+                {saving ? 'Saving…' : 'Save Settings'}
+              </button>
+            </div>
+          </div>
         </>
       )}
       <ToastContainer />

@@ -16,12 +16,15 @@ export const handleReportReviewClick = async (reviewId: number): Promise<void> =
   }
 }
 
-export const handleDeleteReviewClick = async (reviewId: number, discordId: string): Promise<void> => {
+export const handleDeleteReviewClick = async (reviewId: number, discordId: string): Promise<boolean> => {
   try {
     const res = await deleteReview({ reviewID: reviewId, discordID: discordId, token: getCookieItem({ key: 'rdbToken', defaultValue: '' }) })
     if (res.success) {
       notify({ message: res.message || 'Review deleted successfully', type: 'success' })
+      return true
     }
+    notify({ message: res.message || 'Failed to delete review', type: 'error' })
+    return false
   } catch (err: unknown) {
     if (err instanceof Error) {
       notify({ message: err.message || 'An unknown error has occurred', type: 'error' })
@@ -29,5 +32,6 @@ export const handleDeleteReviewClick = async (reviewId: number, discordId: strin
     } else {
       console.log('Unexpected error:', err)
     }
+    return false
   }
 }

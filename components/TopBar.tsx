@@ -4,29 +4,32 @@ import { getRdbUser } from '@global/functions/RDBAPI'
 import { GetUser } from '@global/functions/interface'
 import { clearCookies, getCookieItem, setCookieItem } from '@global/functions/cookieUtils'
 import { IoSettingsOutline } from 'react-icons/io5'
-import { MdDashboard } from 'react-icons/md'
-import { FaDiscord } from 'react-icons/fa'
+import { HiMenu, HiX } from 'react-icons/hi'
+import { FaDiscord, FaUser, FaGavel, FaSignOutAlt } from 'react-icons/fa'
 
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { usePathname } from 'next/navigation'
 
+const DISCORD_LOGIN_URL = 'https://discord.com/api/oauth2/authorize?client_id=915703782174752809&redirect_uri=https%3A%2F%2Fmanti.vendicated.dev%2Fapi%2Freviewdb%2Fauthweb&response_type=code&scope=identify'
+
+const navLinks = [
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/download', label: 'Download' },
+  { href: '/leaderboard', label: 'Leaderboard' },
+  { href: '/discord', label: 'Discord' },
+]
+
 const TopBar: React.FC = (): JSX.Element => {
   const pathname = usePathname()
   const [user, setUser] = React.useState<GetUser | null>(null)
   const [dropdownVisible, setDropdownVisible] = React.useState(false)
-  const [buttonState, setButtonState] = React.useState('dashboard')
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    if (pathname === '/dashboard' || pathname === '/') {
-      setButtonState('dashboard')
-    } else {
-      setButtonState('me')
-    }
-
     const token = getCookieItem({ key: 'rdbToken', defaultValue: null }) as string | null
 
     if (token) {
@@ -37,8 +40,16 @@ const TopBar: React.FC = (): JSX.Element => {
     } else {
       setUser(null)
     }
+  }, [])
 
-    // Hide dropdown when clicking outside
+  // Close menus on navigation
+  React.useEffect(() => {
+    setDropdownVisible(false)
+    setMobileMenuOpen(false)
+  }, [pathname])
+
+  // Hide dropdown when clicking outside of it (ref wraps trigger + menu)
+  React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent): void => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownVisible(false)
@@ -49,110 +60,139 @@ const TopBar: React.FC = (): JSX.Element => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [pathname])
+  }, [])
 
-  const toggleDropdown = (): void => {
-    setDropdownVisible(!dropdownVisible)
+  const handleLogout = (): void => {
+    clearCookies().then(() => {
+      location.reload()
+    }).catch((err: Error) => {
+      console.log(err)
+      if (confirm('An error occurred while logging out. Would you like to reload anyway?')) {
+        location.reload()
+      }
+    })
   }
 
-  const getUserRole = (type: number): JSX.Element | string => {
+  const getUserRole = (type: number): JSX.Element => {
     switch (type) {
     case -1:
-      return <span className='text-red-600'>Banned</span>
+      return <span className='text-red-500'>Banned</span>
     case 0:
       return <span className='text-slate-400'>User</span>
     case 1:
-      return <span className='text-sky-500'>Admin</span>
+      return <span className='text-sky-400'>Admin</span>
     case 2:
       return <span className='text-sky-300'>Moderator</span>
     default:
-      return <span className='text-sky-50'>Unknown</span>
+      return <span className='text-slate-400'>Unknown</span>
     }
   }
 
-  return (
-    <div className='flex items-center sectionBackground px-4 py-2 rounded-xl z-50 w-full'>
-      <Link href='/'>
-        <Image src='/logo.png' alt='StupidityDB Logo' width={45} height={45} className='mr-2' draggable='false' />
-      </Link>
-      
-      {/* Navigation Links */}
-      <div className='flex items-center justify-center md:gap-4 gap-2 text-sm md:text-base ml-4'>
-        {user && (
-          <div className='md:flex items-center justify-center hidden md:gap-4 gap-2'>
-            <Link href='/dashboard' className='text-slate-100 hover:underline'>Dashboard</Link>
-            <Link href='/dashboard/settings' className='text-slate-100 hover:underline'>Settings</Link>
-            <Link href='/dashboard/appeal' className='text-slate-100 hover:underline'>Appeal Ban</Link>
-          </div>
-        )}
-        <Link href='/download' className='text-slate-100 hover:underline'>Download</Link>
-        <Link href='/discord' className='text-slate-100 hover:underline'>Discord</Link>
-      </div>
+  const isActive = (href: string): boolean =>
+    href === '/dashboard' ? (pathname === '/dashboard' || pathname === '/') : pathname.startsWith(href)
 
-      {/* Profile / Login Area */}
-      <div className='flex items-center ml-auto'>
-        {user ? (
-          <>
-            <div className='relative'>
-              <button onClick={toggleDropdown} className='flex items-center'>
-                <div className='flex flex-col text-right'>
-                  <p className='mr-2 md:text-lg text-md text-slate-100 gg-semibold leading-tight'>{user['username'] || 'username#0000'}</p>
-                  <p className='text-xs gg-normal leading-tight mt-0.5'>{getUserRole(user.type)}</p>
+  return (
+    <header className='flex-shrink-0 z-40 border-b border-white/5 bg-surface-1/85 backdrop-blur-md'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3'>
+
+        {/* Brand */}
+        <Link href='/' className='flex items-center gap-2.5 flex-shrink-0 group'>
+          <Image src='/logo.png' alt='ReviewDB Logo' width={36} height={36} className='rounded-lg' draggable='false' />
+          <span className='text-lg gg-bold text-white tracking-tight group-hover:text-slate-200 transition-colors'>ReviewDB</span>
+        </Link>
+
+        {/* Desktop navigation */}
+        <nav className='hidden md:flex items-center gap-1 ml-4'>
+          {navLinks.map(({ href, label }) => (
+            <Link key={href} href={href} className={`navLink ${isActive(href) ? 'navLinkActive' : ''}`}>
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right side: profile / login */}
+        <div className='flex items-center gap-2 ml-auto'>
+          {user ? (
+            <div className='relative' ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownVisible(v => !v)}
+                className='flex items-center gap-2.5 pl-3 pr-2 py-1.5 rounded-lg hover:bg-white/5 transition-colors'
+              >
+                <div className='hidden sm:flex flex-col text-right leading-tight'>
+                  <span className='text-sm gg-semibold text-slate-100'>{user.username || 'username'}</span>
+                  <span className='text-xs gg-normal'>{getUserRole(user.type)}</span>
                 </div>
-                <Image src={user['profilePhoto'] || '/defaultAvatar.png'} alt='User Avatar' width={45} height={45} className='rounded-full' draggable='false' />
+                <Image src={user.profilePhoto || '/defaultAvatar.png'} alt='User Avatar' width={36} height={36} className='rounded-full' draggable='false' />
               </button>
+
               {dropdownVisible && (
-                <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-white text-slate-100 border border-slate-100 rounded shadow-md z-[100]'>
-                  {pathname !== '/dashboard/me' ? (
-                    <Link href='/dashboard/me' onClick={() => setButtonState('me')}>
-                      <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
-                        My profile
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link href='/dashboard/settings'>
-                      <button className='block w-full text-left px-4 py-2 rounded text-sm text-sky-600 hover:bg-sky-600 hover:text-slate-100'>
-                        Settings
-                      </button>
-                    </Link>
-                  )}
-                  <button className='block w-full text-left px-4 py-2 rounded gg-normal text-sm text-red-600 hover:bg-red-600 hover:text-slate-100' onClick={() => {
-                    clearCookies().then(() => {
-                      location.reload()
-                    }).catch((err: Error) => {
-                      console.log(err)
-                      if (confirm('An error occurred while logging out. Would you like to reload anyway?')) {
-                        location.reload()
-                      }
-                    })
-                  }}>
+                <div className='absolute right-0 mt-2 w-52 card p-1.5 z-50 animate-dialog-in'>
+                  <Link href='/dashboard/me' className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors'>
+                    <FaUser size={13} className='text-slate-400' />
+                    My Profile
+                  </Link>
+                  <Link href='/dashboard/settings' className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors'>
+                    <IoSettingsOutline size={14} className='text-slate-400' />
+                    Settings
+                  </Link>
+                  <Link href='/dashboard/appeal' className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-slate-200 hover:bg-white/5 hover:text-white transition-colors'>
+                    <FaGavel size={13} className='text-slate-400' />
+                    Appeal Ban
+                  </Link>
+                  <div className='h-px bg-white/5 my-1.5 mx-2' />
+                  <button
+                    className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors'
+                    onClick={handleLogout}
+                  >
+                    <FaSignOutAlt size={13} />
                     Logout
                   </button>
                 </div>
               )}
             </div>
-            {buttonState === 'me' ? (
-              <Link href='/dashboard' title='User Dashboard' onClick={() => setButtonState('dashboard')}><MdDashboard className='ml-2 text-slate-200 text-2xl hover:animate-pulse' /></Link>
-            ) : (
-              <Link href='/dashboard/settings' title='User Settings' onClick={() => setButtonState('me')}><IoSettingsOutline className='ml-2 text-slate-200 text-2xl hover:animate-spin' /></Link>
-            )}
-          </>
-        ) : (
-          <div className='flex items-center gap-3 select-none'>
-            <span className='hidden sm:block text-slate-400 text-xs font-semibold gg-normal italic mr-1'>
-              No brain wrinkles?
-            </span>
-            <a 
-              href='https://discord.com/api/oauth2/authorize?client_id=915703782174752809&redirect_uri=https%3A%2F%2Fmanti.vendicated.dev%2Fapi%2Freviewdb%2Fauthweb&response_type=code&scope=identify'
-              className='flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] active:bg-[#3c45a5] text-white py-1.5 px-4 rounded-lg text-xs font-bold shadow-md transition duration-150 transform hover:scale-[1.02] cursor-pointer'
-            >
-              <FaDiscord size={13} />
-              <span>Login</span>
-            </a>
-          </div>
-        )}
+          ) : (
+            <div className='flex items-center gap-3 select-none'>
+              <span className='hidden lg:block text-slate-500 text-xs gg-normal italic'>
+                No brain wrinkles?
+              </span>
+              <a href={DISCORD_LOGIN_URL} className='button !py-2 text-sm'>
+                <FaDiscord size={16} />
+                <span>Login</span>
+              </a>
+            </div>
+          )}
+
+          {/* Mobile menu toggle */}
+          <button
+            className='md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors'
+            onClick={() => setMobileMenuOpen(open => !open)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
+          </button>
+        </div>
       </div>
-    </div>
+
+      {/* Mobile navigation panel */}
+      {mobileMenuOpen && (
+        <nav className='md:hidden border-t border-white/5 px-4 py-3 flex flex-col gap-1 bg-surface-1/95 backdrop-blur-md animate-fade-in'>
+          {navLinks.map(({ href, label }) => (
+            <Link key={href} href={href} className={`navLink !py-2.5 ${isActive(href) ? 'navLinkActive' : ''}`}>
+              {label}
+            </Link>
+          ))}
+          {user && (
+            <>
+              <div className='h-px bg-white/5 my-1' />
+              <Link href='/dashboard/me' className='navLink !py-2.5'>My Profile</Link>
+              <Link href='/dashboard/settings' className='navLink !py-2.5'>Settings</Link>
+              <Link href='/dashboard/appeal' className='navLink !py-2.5'>Appeal Ban</Link>
+            </>
+          )}
+        </nav>
+      )}
+    </header>
   )
 }
 

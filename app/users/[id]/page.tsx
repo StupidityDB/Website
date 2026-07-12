@@ -254,15 +254,15 @@ const ProfilePage: React.FC = () => {
   const activeUserBanned = currentUser?.type === -1
 
   return (
-    <div className='flex flex-col lg:flex-row gap-6 h-full w-full select-none overflow-hidden max-h-[70vh] md:max-h-[69vh]'>
+    <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 w-full select-none lg:flex-1 lg:min-h-0 lg:overflow-hidden'>
       
       {/* SIDEBAR: Profile Card & Embed code */}
-      <div className='w-full lg:w-[280px] xl:w-[320px] flex-shrink-0 flex flex-col gap-4 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent'>
+      <div className='w-full lg:w-[280px] xl:w-[320px] flex-shrink-0 flex flex-col gap-4 lg:overflow-y-auto lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent'>
         
         {/* Discord Profile Card Design */}
         <div className='bg-[#1e1f22] rounded-xl overflow-hidden shadow-2xl flex flex-col border border-slate-800/40'>
           {/* Card Banner */}
-          <div className='h-20 bg-sky-600 relative w-full' />
+          <div className='h-20 bg-gradient-to-r from-blurple to-sky-500 relative w-full' />
           
           {/* Avatar Area */}
           <div className='px-4 pb-4 relative flex flex-col'>
@@ -291,7 +291,7 @@ const ProfilePage: React.FC = () => {
                     href={badge.redirectURL || '#'}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='relative w-6 h-6 hover:scale-115 transition-transform'
+                    className='relative w-6 h-6 hover:scale-110 transition-transform'
                     title={badge.description || badge.name}
                   >
                     <Image
@@ -361,7 +361,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* CHAT CONTAINER: Channel structure and list of messages */}
-      <div className='flex-1 bg-[#313338] rounded-xl border border-slate-800/25 flex flex-col overflow-hidden h-full shadow-2xl'>
+      <div className='flex-1 bg-[#313338] rounded-xl border border-slate-800/25 flex flex-col overflow-hidden h-[70dvh] lg:h-auto lg:min-h-0 shadow-2xl'>
         
         {/* Channel Header Bar */}
         <div className='h-12 border-b border-[#1f2023] px-4 flex items-center justify-between bg-[#313338] select-none flex-shrink-0 z-10'>
@@ -436,7 +436,7 @@ const ProfilePage: React.FC = () => {
               <span>This user has opted out of ReviewDB. Review submission is disabled.</span>
             </div>
           ) : token ? (
-            <form onSubmit={handleSendReview} className='relative flex items-center bg-[#383a40] rounded-xl pr-3 pl-4 focus-within:ring-2 ring-sky-500/50 transition-all'>
+            <form onSubmit={handleSendReview} className='relative flex items-center bg-[#383a40] rounded-xl pr-3 pl-4 focus-within:ring-2 ring-blurple/50 transition-all'>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
@@ -453,7 +453,7 @@ const ProfilePage: React.FC = () => {
                 <button
                   type='submit'
                   disabled={submitting || !comment.trim()}
-                  className='p-2 bg-sky-600 hover:bg-sky-500 disabled:bg-slate-600 text-white rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed shadow-md'
+                  className='p-2 bg-blurple hover:bg-blurple-dark disabled:bg-slate-600 text-white rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed shadow-md'
                 >
                   <FaPaperPlane size={14} />
                 </button>

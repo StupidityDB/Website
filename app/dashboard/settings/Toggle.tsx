@@ -4,6 +4,10 @@ import { ToggleProps } from '@global/functions/interface'
 const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, className }): JSX.Element => {
   const [isChecked, setIsChecked] = React.useState(checked)
 
+  React.useEffect(() => {
+    setIsChecked(checked)
+  }, [checked])
+
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const checked = event.target?.checked ?? false
     setIsChecked(checked)
@@ -13,18 +17,18 @@ const Toggle: React.FC<ToggleProps> = ({ checked = false, onChange, label, class
   }
 
   return (
-    <label className={`relative inline-flex items-center cursor-pointer ${className}`}>
+    <label className={`relative inline-flex items-center cursor-pointer group ${className ?? ''}`}>
       <input
         type='checkbox'
-        className='sr-only'
+        className='sr-only peer'
         checked={isChecked}
         onChange={handleToggle}
       />
       <div
-        className={`w-11 h-6 rounded-full transition-all duration-200 ease-in-out ${isChecked ? 'bg-green-500' : 'bg-red-500'}`}
+        className={`relative w-11 h-6 rounded-full transition-colors duration-200 ease-in-out peer-focus-visible:ring-2 peer-focus-visible:ring-blurple/60 ${isChecked ? 'bg-blurple' : 'bg-surface-5'}`}
       >
         <span
-          className={`absolute top-0.5 left-[2px] bg-white border-gray-600 border rounded-full h-5 w-5 transition-all duration-200 ease-in-out transform ${isChecked ? 'translate-x-full' : 'translate-x-0'}`}
+          className={`absolute top-0.5 left-0.5 bg-white rounded-full h-5 w-5 shadow transition-transform duration-200 ease-in-out ${isChecked ? 'translate-x-5' : 'translate-x-0'}`}
         ></span>
       </div>
       {label && (

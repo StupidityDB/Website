@@ -55,7 +55,7 @@ const Dashboard: React.FC = (): JSX.Element => {
   }
 
   return (
-    <div className='flex flex-col h-full w-full overflow-hidden select-none'>
+    <div className='flex flex-col flex-1 min-h-0 w-full select-none'>
       
       {/* Discord-style Dashboard Header */}
       <div className='flex items-center justify-between border-b border-[#3f4147]/40 pb-4 mb-5 select-none flex-shrink-0'>
